@@ -132,21 +132,21 @@ lightbox = new Lightbox options
         }
         return false;
       });
-      $lightbox.find('.lb-outerContainer').on('click', function(e) {
+      $lightbox.on('click', '.lb-outerContainer', function(e) {
         if ($(e.target).attr('id') === 'lightbox') {
           _this.end();
         }
         return false;
       });
-      $lightbox.find('.lb-prev').on('click', function(e) {
+      $lightbox.on('click', '.lb-prev', function(e) {
         _this.changeImage(_this.currentImageIndex - 1);
         return false;
       });
-      $lightbox.find('.lb-next').on('click', function(e) {
+      $lightbox.on('click', '.lb-next', function(e) {
         _this.changeImage(_this.currentImageIndex + 1);
         return false;
       });
-      $lightbox.find('.lb-loader, .lb-close').on('click', function(e) {
+      $lightbox.on('click', '.lb-loader, .lb-close', function(e) {
         _this.end();
         return false;
       });

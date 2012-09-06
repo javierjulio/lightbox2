@@ -116,19 +116,19 @@ class Lightbox
         if $(e.target).attr('id') == 'lightbox' then @end()
         return false
       
-    $lightbox.find('.lb-outerContainer').on 'click', (e) =>
+    $lightbox.on 'click', '.lb-outerContainer', (e) =>
       if $(e.target).attr('id') == 'lightbox' then @end()
       return false
       
-    $lightbox.find('.lb-prev').on 'click', (e) =>
+    $lightbox.on 'click', '.lb-prev', (e) =>
       @changeImage @currentImageIndex - 1
       return false
       
-    $lightbox.find('.lb-next').on 'click', (e) =>
+    $lightbox.on 'click', '.lb-next', (e) =>
       @changeImage @currentImageIndex + 1
       return false
 
-    $lightbox.find('.lb-loader, .lb-close').on 'click', (e) =>
+    $lightbox.on 'click', '.lb-loader, .lb-close', (e) =>
       @end()
       return false
 
