@@ -287,31 +287,28 @@ class Lightbox
 
 
   enableKeyboardNav: ->
-    $(document).on 'keyup.keyboard', $.proxy( @keyboardAction, this)
+    $(document).on 'keyup.keyboard', @keyboardAction
     return
-
   
   disableKeyboardNav: ->
     $(document).off '.keyboard'
     return
   
-    
-  keyboardAction: (event) ->
+  keyboardAction: (event) =>
     KEYCODE_ESC = 27
     KEYCODE_LEFTARROW = 37
     KEYCODE_RIGHTARROW = 39
 
     keycode = event.keyCode
     key = String.fromCharCode(keycode).toLowerCase()
-
+    
     if keycode == KEYCODE_ESC || key.match(/x|o|c/)
       @end()
     else if key == 'p' || keycode == KEYCODE_LEFTARROW
       if @currentImageIndex != 0
-          @changeImage @currentImageIndex - 1
+        @changeImage @currentImageIndex - 1
     else if key == 'n' || keycode == KEYCODE_RIGHTARROW
-      if @currentImageIndex != @album.length - 1
-          @changeImage @currentImageIndex + 1
+        @changeImage @currentImageIndex + 1
     return
 
   
