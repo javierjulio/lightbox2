@@ -308,18 +308,17 @@ class Lightbox
       if @currentImageIndex != 0
         @changeImage @currentImageIndex - 1
     else if key == 'n' || keycode == KEYCODE_RIGHTARROW
+      if @currentImageIndex < @album.length - 1
         @changeImage @currentImageIndex + 1
     return
-
   
-  # Closing time. :-(
   end: ->
     @disableKeyboardNav()
-    $('#lightbox').prepareTransition().addClass('transition-hidden')#.fadeOut @options.fadeDuration
+    $('#lightbox').prepareTransition().addClass('transition-hidden')
     $('#lightboxOverlay').prepareTransition().addClass('transition-hidden')
     $('select, object, embed').css visibility: "visible"
-        
-    
+
+
 $ ->
   $.fn.prepareTransition = ->
     return this.each ->

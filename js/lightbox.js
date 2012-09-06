@@ -43,7 +43,8 @@ lightbox = new Lightbox options
 
 
 (function() {
-  var $, Lightbox, LightboxOptions;
+  var $, Lightbox, LightboxOptions,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $ = jQuery;
 
@@ -63,6 +64,8 @@ lightbox = new Lightbox options
 
     function Lightbox(options) {
       this.options = options;
+      this.keyboardAction = __bind(this.keyboardAction, this);
+
       this.album = [];
       this.currentImageIndex = void 0;
       this.init();
@@ -224,7 +227,7 @@ lightbox = new Lightbox options
       containerLeftPadding = parseInt($container.css('padding-left'), 10);
       newWidth = imageWidth + containerLeftPadding + containerRightPadding;
       newHeight = imageHeight + containerTopPadding + containerBottomPadding;
-      $outerContainer.width(newWidth).height(newHeight).on('TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', function() {
+      $outerContainer.width(newWidth).height(newHeight).one('TransitionEnd webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
         $lightbox.find('.lb-dataContainer').width(newWidth);
         return _this.showImage();
       });
@@ -284,7 +287,7 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.enableKeyboardNav = function() {
-      $(document).on('keyup.keyboard', $.proxy(this.keyboardAction, this));
+      $(document).on('keyup.keyboard', this.keyboardAction);
     };
 
     Lightbox.prototype.disableKeyboardNav = function() {
@@ -305,7 +308,7 @@ lightbox = new Lightbox options
           this.changeImage(this.currentImageIndex - 1);
         }
       } else if (key === 'n' || keycode === KEYCODE_RIGHTARROW) {
-        if (this.currentImageIndex !== this.album.length - 1) {
+        if (this.currentImageIndex < this.album.length - 1) {
           this.changeImage(this.currentImageIndex + 1);
         }
       }
