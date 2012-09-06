@@ -51,7 +51,6 @@ lightbox = new Lightbox options
 
     function LightboxOptions() {
       this.resizeDuration = 700;
-      this.fadeDuration = 500;
       this.labelImage = "Image";
       this.labelOf = "of";
     }
@@ -86,10 +85,12 @@ lightbox = new Lightbox options
       var $lightbox,
         _this = this;
       $("<div>", {
-        id: 'lightboxOverlay'
+        id: 'lightboxOverlay',
+        "class": 'transition-hidden'
       }).appendTo($('body'));
       $('<div/>', {
-        id: 'lightbox'
+        id: 'lightbox',
+        "class": 'transition-hidden'
       }).append($('<div/>', {
         "class": 'lb-outerContainer'
       }).append($('<div/>', {
@@ -121,12 +122,12 @@ lightbox = new Lightbox options
       }).append($('<a/>', {
         "class": 'lb-close'
       }))))).appendTo($('body'));
-      $('#lightboxOverlay').hide().on('click', function(e) {
+      $('#lightboxOverlay').on('click', function(e) {
         _this.end();
         return false;
       });
       $lightbox = $('#lightbox');
-      $lightbox.hide().on('click', function(e) {
+      $lightbox.on('click', function(e) {
         if ($(e.target).attr('id') === 'lightbox') {
           _this.end();
         }
@@ -157,7 +158,7 @@ lightbox = new Lightbox options
       $('select, object, embed').css({
         visibility: "hidden"
       });
-      $('#lightboxOverlay').fadeIn(this.options.fadeDuration);
+      $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden');
       this.album = [];
       imageNumber = 0;
       if ($link.attr('rel') === 'lightbox') {
@@ -185,7 +186,7 @@ lightbox = new Lightbox options
       $lightbox.css({
         top: top + 'px',
         left: left + 'px'
-      }).fadeIn(this.options.fadeDuration);
+      }).prepareTransition().removeClass('transition-hidden');
       this.changeImage(imageNumber);
     };
 
@@ -195,10 +196,9 @@ lightbox = new Lightbox options
       this.disableKeyboardNav();
       $lightbox = $('#lightbox');
       $image = $lightbox.find('.lb-image');
-      $('#lightboxOverlay').fadeIn(this.options.fadeDuration);
-      $('.lb-loader').fadeIn('slow');
+      $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden');
+      $('.lb-loader').show();
       $lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
-      $lightbox.find('.lb-outerContainer').addClass('animating');
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[imageNumber].link);
@@ -224,26 +224,14 @@ lightbox = new Lightbox options
       containerLeftPadding = parseInt($container.css('padding-left'), 10);
       newWidth = imageWidth + containerLeftPadding + containerRightPadding;
       newHeight = imageHeight + containerTopPadding + containerBottomPadding;
-      if (newWidth !== oldWidth && newHeight !== oldHeight) {
-        $outerContainer.animate({
-          width: newWidth,
-          height: newHeight
-        }, this.options.resizeDuration, 'swing');
-      } else if (newWidth !== oldWidth) {
-        $outerContainer.animate({
-          width: newWidth
-        }, this.options.resizeDuration, 'swing');
-      } else if (newHeight !== oldHeight) {
-        $outerContainer.animate({
-          height: newHeight
-        }, this.options.resizeDuration, 'swing');
-      }
-      setTimeout(function() {
+      $outerContainer.width(newWidth).height(newHeight).on('TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', function() {
         $lightbox.find('.lb-dataContainer').width(newWidth);
-        $lightbox.find('.lb-prevLink').height(newHeight);
-        $lightbox.find('.lb-nextLink').height(newHeight);
-        _this.showImage();
-      }, this.options.resizeDuration);
+        return _this.showImage();
+      });
+      if (newWidth === oldWidth && newHeight === oldHeight) {
+        $lightbox.find('.lb-dataContainer').width(newWidth);
+        this.showImage();
+      }
     };
 
     Lightbox.prototype.showImage = function() {
@@ -280,7 +268,6 @@ lightbox = new Lightbox options
       } else {
         $lightbox.find('.lb-number').hide();
       }
-      $lightbox.find('.lb-outerContainer').removeClass('animating');
       $lightbox.find('.lb-dataContainer').fadeIn(this.resizeDuration);
     };
 
@@ -326,8 +313,8 @@ lightbox = new Lightbox options
 
     Lightbox.prototype.end = function() {
       this.disableKeyboardNav();
-      $('#lightbox').fadeOut(this.options.fadeDuration);
-      $('#lightboxOverlay').fadeOut(this.options.fadeDuration);
+      $('#lightbox').prepareTransition().addClass('transition-hidden');
+      $('#lightboxOverlay').prepareTransition().addClass('transition-hidden');
       return $('select, object, embed').css({
         visibility: "visible"
       });
@@ -339,6 +326,24 @@ lightbox = new Lightbox options
 
   $(function() {
     var lightbox, options;
+    $.fn.prepareTransition = function() {
+      return this.each(function() {
+        var cl, duration, el;
+        el = $(this);
+        el.one('TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', function() {
+          return el.removeClass('is-transitioning');
+        });
+        cl = ["transition-duration", "-moz-transition-duration", "-webkit-transition-duration", "-o-transition-duration", "-ms-transition-duration"];
+        duration = 0;
+        $.each(cl, function(idx, itm) {
+          return duration = parseFloat(el.css(itm)) || duration;
+        });
+        if (duration !== 0) {
+          el.addClass('is-transitioning');
+          return el[0].offsetWidth;
+        }
+      });
+    };
     options = new LightboxOptions;
     return lightbox = new Lightbox(options);
   });

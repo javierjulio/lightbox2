@@ -1,6 +1,23 @@
 @import "mixins"
 @import "variables"
 
+.transition-hidden
+  opacity: 0
+
+.transition-visible
+  opacity: 1
+
+.is-transitioning
+  display: block !important
+  visibility: visible !important
+
+#lightboxOverlay, #lightbox
+  @include transition(opacity 0.5s ease)
+  
+  &.transition-hidden
+    display: none
+    opacity: 0
+
 #lightboxOverlay
   bottom: 0
   position: fixed
@@ -10,7 +27,6 @@
   z-index: 9999
   background-color: #000
   @include opacity(0.85)
-  display: none
 
 #lightbox
   position: absolute
@@ -35,6 +51,7 @@
   height: 250px
   margin: 0 auto
   @include border-radius($radius)
+  @include transition(height 0.7s ease, width 0.7s ease)
 
 .lb-container
   padding: 10px

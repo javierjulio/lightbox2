@@ -46,7 +46,6 @@ $ = jQuery
 class LightboxOptions
   constructor: ->
     @resizeDuration = 700
-    @fadeDuration = 500
     @labelImage = "Image" # Change to localize to non-english language
     @labelOf = "of"
 
@@ -74,8 +73,8 @@ class Lightbox
   # Build html for the lightbox and the overlay.
   # Attach event handlers to the new DOM elements. click click click
   build: ->
-    $("<div>", id: 'lightboxOverlay' ).appendTo($('body'))
-    $('<div/>', id: 'lightbox').append(
+    $("<div>", id: 'lightboxOverlay', class: 'transition-hidden').appendTo($('body'))
+    $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
       $('<div/>', class: 'lb-outerContainer').append(
         $('<div/>', class: 'lb-container').append(
           $('<img/>', class: 'lb-image'),
@@ -103,7 +102,6 @@ class Lightbox
 
     # Attach event handlers to the newly minted DOM elements
     $('#lightboxOverlay')
-      .hide()
       .on 'click', (e) =>
         @end()
         return false
@@ -111,7 +109,6 @@ class Lightbox
     $lightbox = $('#lightbox')
     
     $lightbox
-      .hide()
       .on 'click', (e) =>
         if $(e.target).attr('id') == 'lightbox' then @end()
         return false
@@ -138,7 +135,8 @@ class Lightbox
   start: ($link) ->
     $('select, object, embed').css visibility: "hidden"
     $('#lightboxOverlay')
-      .fadeIn( @options.fadeDuration )
+      .prepareTransition()
+      .removeClass('transition-hidden')
 
     @album = []
     imageNumber = 0
@@ -162,7 +160,8 @@ class Lightbox
       .css
         top: top + 'px'
         left: left + 'px'
-      .fadeIn( @options.fadeDuration)
+      .prepareTransition()
+      .removeClass('transition-hidden')
       
     @changeImage(imageNumber)
     return
@@ -174,14 +173,12 @@ class Lightbox
     @disableKeyboardNav()    
     $lightbox = $('#lightbox')
     $image = $lightbox.find('.lb-image')
-
-    $('#lightboxOverlay').fadeIn( @options.fadeDuration )
     
-    $('.lb-loader').fadeIn 'slow'
+    $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden')
+    
+    $('.lb-loader').show()
     $lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
 
-    $lightbox.find('.lb-outerContainer').addClass 'animating'
-    
     # When image to show is preloaded, we send the width and height to sizeContainer()
     preloader = new Image
     preloader.onload = () =>
@@ -213,30 +210,24 @@ class Lightbox
     newWidth = imageWidth + containerLeftPadding + containerRightPadding
     newHeight = imageHeight + containerTopPadding + containerBottomPadding
   
-    # Animate just the width, just the height, or both, depending on what is different
-    if newWidth != oldWidth && newHeight != oldHeight
-      $outerContainer.animate
-        width: newWidth,
-        height: newHeight
-      , @options.resizeDuration, 'swing'
-    else if newWidth != oldWidth
-      $outerContainer.animate
-        width: newWidth
-      , @options.resizeDuration, 'swing'
-    else if newHeight != oldHeight
-      $outerContainer.animate
-        height: newHeight
-      , @options.resizeDuration, 'swing'
-
-    # Wait for resize animation to finsh before showing the image
-    setTimeout =>
-      $lightbox.find('.lb-dataContainer').width(newWidth)
-      $lightbox.find('.lb-prevLink').height(newHeight)
-      $lightbox.find('.lb-nextLink').height(newHeight)
-      @showImage()
-      return
-    , @options.resizeDuration 
+    $outerContainer
+      .width(newWidth)
+      .height(newHeight)
+    # if transition support OR no width and height changed
+    # $outerContainer
+      .on 'TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', =>
+        $lightbox.find('.lb-dataContainer').width(newWidth)
+        @showImage()
     
+    if newWidth == oldWidth and newHeight == oldHeight
+      $lightbox.find('.lb-dataContainer').width(newWidth)
+      @showImage()
+    
+    # else
+    # $lightbox.find('.lb-dataContainer').width(newWidth)
+    # $lightbox.find('.lb-prevLink').height(newHeight)
+    # $lightbox.find('.lb-nextLink').height(newHeight)
+    # @showImage()
     return
   
   
@@ -278,8 +269,6 @@ class Lightbox
     else 
       $lightbox.find('.lb-number').hide()
 
-    $lightbox.find('.lb-outerContainer').removeClass 'animating'
-    
     $lightbox.find('.lb-dataContainer')
       .fadeIn @resizeDuration
     return
@@ -329,11 +318,27 @@ class Lightbox
   # Closing time. :-(
   end: ->
     @disableKeyboardNav()
-    $('#lightbox').fadeOut @options.fadeDuration
-    $('#lightboxOverlay').fadeOut @options.fadeDuration
+    $('#lightbox').prepareTransition().addClass('transition-hidden')#.fadeOut @options.fadeDuration
+    $('#lightboxOverlay').prepareTransition().addClass('transition-hidden')
     $('select, object, embed').css visibility: "visible"
         
     
 $ ->
+  $.fn.prepareTransition = ->
+    return this.each ->
+      el = $(this)
+      
+      el.one 'TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', ->
+        el.removeClass('is-transitioning')
+      
+      cl = ["transition-duration", "-moz-transition-duration", "-webkit-transition-duration", "-o-transition-duration", "-ms-transition-duration"]
+      duration = 0
+      $.each cl, (idx, itm) ->
+        duration =  parseFloat( el.css( itm ) ) || duration
+      
+      if duration != 0
+        el.addClass('is-transitioning')
+        el[0].offsetWidth
+  
   options = new LightboxOptions
   lightbox = new Lightbox options
