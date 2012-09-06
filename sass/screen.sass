@@ -1,20 +1,8 @@
-/* 
- *	Lightbox v2 Project page styles	
- *	Author: Lokesh Dhakar http://www.lokeshdhakar.com
- *	Created: a long time ago (2006 I think)
- *	Table of Contents:
- *		layout
- *		typography
- *    content
-
-@import "compass/reset"
-@import "compass/css3"
-@import "compass/utilities/general/clearfix"
-
+@import "mixins"
 @import "variables"
 
 /* layout
- *-----------------------------------------------
+ *----------------------------------------------- */
 #sidebar
   position: fixed
   top: $gutter
@@ -25,10 +13,10 @@
   margin: 0 $gutter $gutter $sidebarWidth+$gutter*2
 
 .row
-  +pie-clearfix
+  @include clearfix
 
 /* Typography
- *-----------------------------------------------
+ *----------------------------------------------- */
 
 body
   background: $bodyBg url(../images/bg-checker.png)
@@ -73,7 +61,7 @@ h4
 
 
 
-/* Text elements
+/* Text elements */
 p
   margin: 0 0 1.25em 0
   line-height: $lineHeight  
@@ -101,24 +89,24 @@ pre
   margin: $gutter/2 0 $gutter/2 0
   overflow: auto
   padding: 1em
-  +border-radius($radius)
-  +box-shadow( 0 1px 0 0 rgba(255,255,255,0.1), inset 0 2px 6px 2px rgba(0,0,0,1))
+  @include border-radius($radius)
+  @include box-shadow( 0 1px 0 0 rgba(255,255,255,0.1), inset 0 2px 6px 2px rgba(0,0,0,1))
 
 code, kbd
   font: 14px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace
   background: rgba(0,0,0,0.4)
-  +box-shadow( 0 1px 0 0 rgba(255,255,255,0.1), inset 0 2px 6px 2px rgba(0,0,0,1))
+  @include box-shadow( 0 1px 0 0 rgba(255,255,255,0.1), inset 0 2px 6px 2px rgba(0,0,0,1))
   padding: 5px
-  +border-radius($radius)  
+  @include border-radius($radius)  
   color: $orange
 
 pre code
   font-size: 13px
   background: transparent
-  +box-shadow(none)
+  @include box-shadow(none)
   padding: 0
 
-/* Links
+/* Links */
 a
   color: $linkColor
   text-decoration: none
@@ -132,17 +120,17 @@ a
 
     
 /* sidebar
- *-----------------------------------------------
+ *----------------------------------------------- */
 
 #sidebar
-  +opacity(0.6)
-  +transition( opacity .2s)
+  @include opacity(0.6)
+  @include transition( opacity .2s)
   &:hover
-    +opacity(1)
+    @include opacity(1)
   a
     color: #fff
   .logo
-    +transition( all .2s ease-out)
+    @include transition( all .2s ease-out)
     em
       color: $linkColor
     &:hover
@@ -177,21 +165,21 @@ a
     background: rgba(80,80,80,1)
     border-top: 1px solid rgba(255,255,255,0.15)
     border-bottom: 1px solid rgba(0,0,0,0.4)
-    +transition( all .2s ease-out)
+    @include transition( all .2s ease-out)
     &:hover
       text-shadow: 0 1px 0 rgba(0,0,0,0.6)
       background-color: darken($headingColor, 30%)
   a.first
     border-bottom-color: rgba(0,0,0,0.5)
-    +border-top-radius($radius)
+    @include border-radius($radius $radius 0 0)
     border-top-color: transparent
   a.last
     border-top-color: rgba(255,255,255,0.25)
-    +border-bottom-radius($radius)
+    @include border-radius(0 0 $radius $radius)
 
 
 /* content
- *-----------------------------------------------
+ *----------------------------------------------- */
 
 .download
   float: left
@@ -199,8 +187,8 @@ a
   padding: 10px 20px 10px 10px
   background-color: #333
   border: 5px solid #333
-  +border-radius($radius)
-  +transition( all .2s ease-out)
+  @include border-radius($radius)
+  @include transition( all .2s ease-out)
   &:hover
     border-color: $linkColor
     background-color: #444
@@ -256,8 +244,8 @@ a
   padding: 10px
   background-color: #333
   border: 5px solid #333
-  +border-radius($radius)
-  +transition( all .2s ease-out)
+  @include border-radius($radius)
+  @include transition( all .2s ease-out)
   &:hover
     border-color: $linkColor
     background-color: #444
@@ -285,15 +273,15 @@ a
     padding: 10px 10px 10px 10px
     background-color: #333
     border: 5px solid #333
-    +border-radius($radius)
-    +transition( all .2s ease-out)
+    @include border-radius($radius)
+    @include transition( all .2s ease-out)
     color: #fff
     &:hover
       background-color: #444
       border-color: $linkColor
 
 /* misc
- *-----------------------------------------------
+ *----------------------------------------------- */
 
 p.lead
   font-size: $fontSize + 10
@@ -307,7 +295,7 @@ hr
   height: 6px
   background: #3d3d33
   border: none
-  +border-radius($radius)
+  @include border-radius($radius)
   clear: both
 
 .section
@@ -316,7 +304,7 @@ hr
     border-top: none
 
 .imageRow
-  +pie-clearfix
+  @include clearfix
   margin: $gutter/2 0 
   .single
     float: left
@@ -326,40 +314,40 @@ hr
       background: rgba(255,255,255,.1)
       padding: 7px
       line-height: 1em
-      +border-radius($radius)
-      +box-shadow( 0 1px 4px 0 rgba(0,0,0,0.5))
+      @include border-radius($radius)
+      @include box-shadow( 0 1px 4px 0 rgba(0,0,0,0.5))
       margin-right: $gutter
-      +transition( all .2s ease-out)
+      @include transition( all .2s ease-out)
       img
-        +border-radius($radius)
+        @include border-radius($radius)
         border: 1px solid rgba(0,0,0,0.3)
       &:hover
         background-color: $linkColor
   .set
     float: left
     background: rgba(255,255,255,.1)
-    +border-radius($radius)
-    +box-shadow( 0 1px 4px 0 rgba(0,0,0,0.5))
-    +transition( all .2s ease-out)
+    @include border-radius($radius)
+    @include box-shadow( 0 1px 4px 0 rgba(0,0,0,0.5))
+    @include transition( all .2s ease-out)
     &:hover
       background: rgba(255,255,255,.2)
     .single
       a
         background: none
-        +border-radius(0)
-        +box-shadow(none)
+        @include border-radius(0)
+        @include box-shadow(none)
         margin-right: 0
         &:hover
           background-color: $linkColor       
-          +box-shadow( 0 -1px 0 0 rgba(255,255,255,0.2), 0 1px 4px 0 rgba(0,0,0,0.5))
+          @include box-shadow( 0 -1px 0 0 rgba(255,255,255,0.2), 0 1px 4px 0 rgba(0,0,0,0.5))
     .single.first
       a
-        +border-left-radius($radius)
+        @include border-radius($radius 0 0 $radius)
     .single.last
       a
-        +border-right-radius($radius)
+        @include border-radius(0 $radius $radius 0)
        
-// Drop comments below content
+/* Drop comments below content */
 @media only screen and (max-width: 1000px)
 
   body, input, textarea
@@ -419,7 +407,7 @@ hr
 
 
   #sidebar
-    +opacity(1)
+    @include opacity(1)
     position: static
     text-align: center
     width: auto
@@ -437,7 +425,7 @@ hr
           padding: 10px
           height: auto
           margin: 0 5px 10px 5px
-          +border-radius(6px)
+          @include border-radius(6px)
 
   h2
     font-size: 18px

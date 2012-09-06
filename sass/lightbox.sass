@@ -1,6 +1,4 @@
-@import "compass/css3"
-@import "compass/utilities/general/clearfix"
-
+@import "mixins"
 @import "variables"
 
 #lightboxOverlay
@@ -11,7 +9,7 @@
   left: 0
   z-index: 9999
   background-color: #000
-  +opacity(0.85)
+  @include opacity(0.85)
   display: none
 
 #lightbox
@@ -32,21 +30,23 @@
 .lb-outerContainer
   position: relative
   background-color: #fff
-  +pie-clearfix
+  @include clearfix
   width: 250px
   height: 250px
   margin: 0 auto
-  +border-radius($radius)
+  @include border-radius($radius)
 
 .lb-container
   padding: 10px
 
 .lb-loader
+  margin-top: -16px
+  margin-left: -16px
   position: absolute
-  top: 40%
-  left: 0%
-  height: 25%
-  width: 100%
+  top: 50%
+  left: 50%
+  height: 32px
+  width: 32px
   text-align: center
   line-height: 0
 
@@ -90,9 +90,9 @@
 .lb-dataContainer
   margin: 0 auto
   padding-top: 5px
-  +pie-clearfix
+  @include clearfix
   width: 100%
-  +border-bottom-radius($radius)
+  @include border-radius(0 $radius $radius 0)
 
 .lb-data
   padding: 0 10px
