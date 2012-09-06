@@ -48,7 +48,7 @@ class LightboxOptions
     @resizeDuration = 700
     @fadeDuration = 500
     @labelImage = "Image" # Change to localize to non-english language
-    @labelOf = "of"       
+    @labelOf = "of"
 
 
 class Lightbox
@@ -74,29 +74,28 @@ class Lightbox
   # Build html for the lightbox and the overlay.
   # Attach event handlers to the new DOM elements. click click click
   build: ->
-    $("<div>", id: 'lightboxOverlay' ).after(
-      $('<div/>', id: 'lightbox').append(
-        $('<div/>', class: 'lb-outerContainer').append(
-          $('<div/>', class: 'lb-container').append(
-            $('<img/>', class: 'lb-image'),
-            $('<div/>',class: 'lb-nav').append(
-              $('<a/>', class: 'lb-prev'),
-              $('<a/>', class: 'lb-next')
-            ),
-            $('<div/>', class: 'lb-loader').append(
-              $('<a/>', class: 'lb-cancel')
-            )
+    $("<div>", id: 'lightboxOverlay' ).appendTo($('body'))
+    $('<div/>', id: 'lightbox').append(
+      $('<div/>', class: 'lb-outerContainer').append(
+        $('<div/>', class: 'lb-container').append(
+          $('<img/>', class: 'lb-image'),
+          $('<div/>',class: 'lb-nav').append(
+            $('<a/>', class: 'lb-prev'),
+            $('<a/>', class: 'lb-next')
+          ),
+          $('<div/>', class: 'lb-loader').append(
+            $('<a/>', class: 'lb-cancel')
           )
-        ),
-        $('<div/>', class: 'lb-dataContainer').append(
-          $('<div/>', class: 'lb-data').append(          
-            $('<div/>', class: 'lb-details').append(
-              $('<span/>', class: 'lb-caption'),
-              $('<span/>', class: 'lb-number')
-            ),
-            $('<div/>', class: 'lb-closeContainer').append(
-              $('<a/>', class: 'lb-close')
-            )
+        )
+      ),
+      $('<div/>', class: 'lb-dataContainer').append(
+        $('<div/>', class: 'lb-data').append(          
+          $('<div/>', class: 'lb-details').append(
+            $('<span/>', class: 'lb-caption'),
+            $('<span/>', class: 'lb-number')
+          ),
+          $('<div/>', class: 'lb-closeContainer').append(
+            $('<a/>', class: 'lb-close')
           )
         )
       )
@@ -209,7 +208,7 @@ class Lightbox
     containerTopPadding = parseInt $container.css('padding-top'), 10
     containerRightPadding = parseInt $container.css('padding-right'), 10
     containerBottomPadding = parseInt $container.css('padding-bottom'), 10
-    containerLeftPadding = parseInt $container.css('padding-left'), 10        
+    containerLeftPadding = parseInt $container.css('padding-left'), 10
 
     newWidth = imageWidth + containerLeftPadding + containerRightPadding
     newHeight = imageHeight + containerTopPadding + containerBottomPadding
