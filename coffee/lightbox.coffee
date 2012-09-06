@@ -215,7 +215,7 @@ class Lightbox
       .height(newHeight)
     # if transition support OR no width and height changed
     # $outerContainer
-      .on 'TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', =>
+      .one 'TransitionEnd webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
         $lightbox.find('.lb-dataContainer').width(newWidth)
         @showImage()
     
