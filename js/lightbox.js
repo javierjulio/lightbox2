@@ -154,6 +154,7 @@ lightbox = new Lightbox options
         _this.end();
         return false;
       });
+      this.enableKeyboardNav();
     };
 
     Lightbox.prototype.start = function($link) {
@@ -196,7 +197,6 @@ lightbox = new Lightbox options
     Lightbox.prototype.changeImage = function(imageNumber) {
       var $image, $lightbox, preloader,
         _this = this;
-      this.disableKeyboardNav();
       $lightbox = $('#lightbox');
       $image = $lightbox.find('.lb-image');
       $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden');
@@ -245,7 +245,6 @@ lightbox = new Lightbox options
       this.updateNav();
       this.updateDetails();
       this.preloadNeighboringImages();
-      this.enableKeyboardNav();
     };
 
     Lightbox.prototype.updateNav = function() {

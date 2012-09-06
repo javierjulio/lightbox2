@@ -128,7 +128,9 @@ class Lightbox
     $lightbox.on 'click', '.lb-loader, .lb-close', (e) =>
       @end()
       return false
-
+    
+    @enableKeyboardNav()
+    
     return
 
   # Show overlay and lightbox. If the image is part of a set, add siblings to album array.
@@ -169,8 +171,6 @@ class Lightbox
 
   # Hide most UI elements in preparation for the animated resizing of the lightbox.
   changeImage: (imageNumber) ->
-    
-    @disableKeyboardNav()    
     $lightbox = $('#lightbox')
     $image = $lightbox.find('.lb-image')
     
@@ -240,7 +240,6 @@ class Lightbox
     @updateNav()
     @updateDetails()
     @preloadNeighboringImages()
-    @enableKeyboardNav()
 
     return
 
