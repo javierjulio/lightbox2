@@ -179,10 +179,8 @@ class Lightbox
     preloader = new Image
     preloader.onload = () =>
       $image.attr 'src', @album[imageNumber].link
-      # Bug fix by Andy Scott 
-      $image.width = preloader.width
-      $image.height = preloader.height
-      # End of bug fix
+      $image[0].width = preloader.width
+      $image[0].height = preloader.height
       @sizeContainer preloader.width, preloader.height
     preloader.src = @album[imageNumber].link
     
