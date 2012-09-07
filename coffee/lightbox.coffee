@@ -171,7 +171,7 @@ class Lightbox
     
     $('.lb-loader').show()
     
-    @element.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
+    @element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
     
     # When image to show is preloaded, we send the width and height to sizeContainer()
     preloader = new Image
@@ -228,9 +228,8 @@ class Lightbox
 
   # Display previous and next navigation if appropriate.
   updateNav: ->
-    @element.find('.lb-nav').show()
-    if @currentImageIndex > 0 then @element.find('.lb-prev').show()
-    if @currentImageIndex < @album.length - 1 then @element.find('.lb-next').show()
+    @element.find('.lb-prev').show() if @currentImageIndex > 0
+    @element.find('.lb-next').show() if @currentImageIndex < @album.length - 1
     return
   
   # Display caption, image number, and closing button. 

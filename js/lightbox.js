@@ -195,7 +195,7 @@ lightbox = new Lightbox options
       $image = this.element.find('.lb-image');
       this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       $('.lb-loader').show();
-      this.element.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
+      this.element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[imageNumber].link);
@@ -220,7 +220,7 @@ lightbox = new Lightbox options
       containerLeftPadding = parseInt($container.css('padding-left'), 10);
       newWidth = imageWidth + containerLeftPadding + containerRightPadding;
       newHeight = imageHeight + containerTopPadding + containerBottomPadding;
-      $outerContainer.width(newWidth).height(newHeight).one('TransitionEnd webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
+      $outerContainer.width(newWidth).height(newHeight).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
         _this.element.find('.lb-dataContainer').width(newWidth);
         return _this.showImage();
       });
@@ -239,7 +239,6 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.updateNav = function() {
-      this.element.find('.lb-nav').show();
       if (this.currentImageIndex > 0) {
         this.element.find('.lb-prev').show();
       }
