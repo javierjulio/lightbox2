@@ -97,7 +97,9 @@ lightbox = new Lightbox options
         "class": 'transition-hidden'
       }).append($('<div/>', {
         "class": 'lb-outerContainer'
-      }).append($('<div/>', {
+      }).append($('<a/>', {
+        "class": 'lb-close'
+      }), $('<div/>', {
         "class": 'lb-container'
       }).append($('<img/>', {
         "class": 'lb-image'
@@ -121,10 +123,6 @@ lightbox = new Lightbox options
         "class": 'lb-caption'
       }), $('<span/>', {
         "class": 'lb-number'
-      })), $('<div/>', {
-        "class": 'lb-closeContainer'
-      }).append($('<a/>', {
-        "class": 'lb-close'
       }))))).appendTo($('body'));
       this.elementOverlay = $('#lightboxOverlay');
       this.element = $('#lightbox');

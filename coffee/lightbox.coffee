@@ -77,6 +77,7 @@ class Lightbox
     
     $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
       $('<div/>', class: 'lb-outerContainer').append(
+        $('<a/>', class: 'lb-close'),
         $('<div/>', class: 'lb-container').append(
           $('<img/>', class: 'lb-image'),
           $('<div/>',class: 'lb-nav').append(
@@ -93,9 +94,6 @@ class Lightbox
           $('<div/>', class: 'lb-details').append(
             $('<span/>', class: 'lb-caption'),
             $('<span/>', class: 'lb-number')
-          ),
-          $('<div/>', class: 'lb-closeContainer').append(
-            $('<a/>', class: 'lb-close')
           )
         )
       )
