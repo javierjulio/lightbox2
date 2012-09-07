@@ -68,28 +68,22 @@
   line-height: 0
 
 .lb-nav
-  position: absolute
-  top: 0
+  bottom: 0
   left: 0
-  height: 100%
-  width: 100%
+  position: absolute
+  right: 0
+  top: 0
   z-index: 10
 
-.lb-container > .nav
-  left: 0
-
-.lb-nav a
-  outline: none
-
 .lb-prev, .lb-next
-  width: 49%
-  height: 100%
   background-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")
   bottom: 0
+  display: block /* Trick IE into showing hover */
+  height: 100%
+  outline: none
   position: absolute
   top: 0
-  /* Trick IE into showing hover */
-  display: block
+  width: 49%
 
 .lb-prev
   left: 0
