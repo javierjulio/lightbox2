@@ -84,8 +84,8 @@ class Lightbox
             $('<a/>', class: 'lb-prev'),
             $('<a/>', class: 'lb-next')
           ),
-          $('<div/>', class: 'lb-loader').append(
-            $('<a/>', class: 'lb-cancel')
+          $('<div/>', class: 'lb-progress-container').append(
+            $('<div/>', class: 'lb-progress')
           )
         )
       ),
@@ -169,7 +169,7 @@ class Lightbox
       .prepareTransition()
       .removeClass('transition-hidden')
     
-    $('.lb-loader').show()
+    $('.lb-progress-container').show()
     
     @element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
     
@@ -222,7 +222,7 @@ class Lightbox
   
   # Display the image and it's details and begin preload neighboring images.
   showImage: ->
-    @element.find('.lb-loader').hide()
+    @element.find('.lb-progress-container').hide()
     @element.find('.lb-image').fadeIn 'slow'
     @updateNav()
     @updateDetails()

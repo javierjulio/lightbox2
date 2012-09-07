@@ -110,9 +110,9 @@ lightbox = new Lightbox options
       }), $('<a/>', {
         "class": 'lb-next'
       })), $('<div/>', {
-        "class": 'lb-loader'
-      }).append($('<a/>', {
-        "class": 'lb-cancel'
+        "class": 'lb-progress-container'
+      }).append($('<div/>', {
+        "class": 'lb-progress'
       })))), $('<div/>', {
         "class": 'lb-dataContainer'
       }).append($('<div/>', {
@@ -194,7 +194,7 @@ lightbox = new Lightbox options
         _this = this;
       $image = this.element.find('.lb-image');
       this.elementOverlay.prepareTransition().removeClass('transition-hidden');
-      $('.lb-loader').show();
+      $('.lb-progress-container').show();
       this.element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
       this.currentImageIndex = imageNumber;
       preloader = new Image;
@@ -237,7 +237,7 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.showImage = function() {
-      this.element.find('.lb-loader').hide();
+      this.element.find('.lb-progress-container').hide();
       this.element.find('.lb-image').fadeIn('slow');
       this.updateNav();
       this.updateDetails();
