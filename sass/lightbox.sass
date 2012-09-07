@@ -34,12 +34,9 @@
   width: 100%
   z-index: 10000
   text-align: center
-  line-height: 0
   font-family: 'lucida grande', tahoma, verdana, arial, sans-serif
   font-weight: normal
-  img
-    width: auto
-    height: auto
+  
   a img
     border: none
 
@@ -57,15 +54,13 @@
   padding: 10px
 
 .lb-loader
+  height: 32px
+  left: 50%
   margin-top: -16px
   margin-left: -16px
   position: absolute
   top: 50%
-  left: 50%
-  height: 32px
   width: 32px
-  text-align: center
-  line-height: 0
 
 .lb-nav
   bottom: 0
@@ -96,26 +91,20 @@
 
 .lb-dataContainer
   margin: 0 auto
-  padding-top: 5px
-  @include clearfix
   width: 100%
 
 .lb-data
-  padding: 0 10px
   color: #bbb
+  padding: 5px 10px 0 10px
+  
   .lb-details
-    width: 85%
-    float: left
-    text-align: left
     line-height: 1.1em
+    text-align: left
   .lb-caption
     font-size: 13px
     font-weight: bold
-    line-height: 1em
   .lb-number
     display: block
-    clear: left
-    padding-bottom: 1.0em
     font-size: 11px
 
 .lb-close
