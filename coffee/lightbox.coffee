@@ -54,26 +54,27 @@ class Lightbox
   constructor: (@options) ->
     @album = []
     @currentImageIndex = undefined
+    @element = undefined
+    @elementOverlay = undefined
     @init()
-    
   
   init: ->
     @build()
     @enable()
-
-
+  
   # Loop through anchors and areamaps looking for rel attributes that contain 'lightbox'
   # On clicking these, start lightbox.
   enable: ->
     $('body').on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (e) =>
       @start $(e.currentTarget)
       false
-
-
+  
   # Build html for the lightbox and the overlay.
   # Attach event handlers to the new DOM elements. click click click
   build: ->
-    $("<div>", id: 'lightboxOverlay', class: 'transition-hidden').appendTo($('body'))
+    $("<div>", id: 'lightboxOverlay', class: 'transition-hidden')
+      .appendTo($('body'))
+    
     $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
       $('<div/>', class: 'lb-outerContainer').append(
         $('<div/>', class: 'lb-container').append(
@@ -99,44 +100,38 @@ class Lightbox
         )
       )
     ).appendTo $('body')
-
-    # Attach event handlers to the newly minted DOM elements
-    $('#lightboxOverlay')
-      .on 'click', (e) =>
-        @end()
-        return false
-
-    $lightbox = $('#lightbox')
     
-    $lightbox
-      .on 'click', (e) =>
-        if $(e.target).attr('id') == 'lightbox' then @end()
-        return false
-      
-    $lightbox.on 'click', '.lb-outerContainer', (e) =>
-      if $(e.target).attr('id') == 'lightbox' then @end()
-      return false
-      
-    $lightbox.on 'click', '.lb-prev', (e) =>
-      @changeImage @currentImageIndex - 1
-      return false
-      
-    $lightbox.on 'click', '.lb-next', (e) =>
-      @changeImage @currentImageIndex + 1
-      return false
-
-    $lightbox.on 'click', '.lb-loader, .lb-close', (e) =>
+    @elementOverlay = $('#lightboxOverlay')
+    @element = $('#lightbox')
+    
+    @elementOverlay.on 'click', (e) =>
       @end()
       return false
     
+    @element
+      .on 'click', (e) =>
+        if $(e.target).attr('id') == 'lightbox' then @end()
+        return false
+      .on 'click', '.lb-outerContainer', (e) =>
+        if $(e.target).attr('id') == 'lightbox' then @end()
+        return false
+      .on 'click', '.lb-prev', (e) =>
+        @changeImage @currentImageIndex - 1
+        return false
+      .on 'click', '.lb-next', (e) =>
+        @changeImage @currentImageIndex + 1
+        return false
+      .on 'click', '.lb-close', (e) =>
+        @end()
+        return false
     @enableKeyboardNav()
-    
     return
 
   # Show overlay and lightbox. If the image is part of a set, add siblings to album array.
   start: ($link) ->
     $('select, object, embed').css visibility: "hidden"
-    $('#lightboxOverlay')
+    
+    @elementOverlay
       .prepareTransition()
       .removeClass('transition-hidden')
 
@@ -157,28 +152,29 @@ class Lightbox
     $window = $(window)
     top = $window.scrollTop() + $window.height()/10
     left = $window.scrollLeft()
-    $lightbox = $('#lightbox')
-    $lightbox
+    @element
       .css
         top: top + 'px'
         left: left + 'px'
       .prepareTransition()
       .removeClass('transition-hidden')
-      
+
     @changeImage(imageNumber)
+    
     return
-  
 
   # Hide most UI elements in preparation for the animated resizing of the lightbox.
   changeImage: (imageNumber) ->
-    $lightbox = $('#lightbox')
-    $image = $lightbox.find('.lb-image')
+    $image = @element.find('.lb-image')
     
-    $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden')
+    @elementOverlay
+      .prepareTransition()
+      .removeClass('transition-hidden')
     
     $('.lb-loader').show()
-    $lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
-
+    
+    @element.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
+    
     # When image to show is preloaded, we send the width and height to sizeContainer()
     preloader = new Image
     preloader.onload = () =>
@@ -191,17 +187,15 @@ class Lightbox
 
     preloader.src = @album[imageNumber].link
     @currentImageIndex = imageNumber
-    return  
+    return
 
   # Animate the size of the lightbox to fit the image we are showing
   sizeContainer: (imageWidth, imageHeight) ->
-    $lightbox = $('#lightbox')
-
-    $outerContainer = $lightbox.find('.lb-outerContainer')
+    $outerContainer = @element.find('.lb-outerContainer')
     oldWidth = $outerContainer.outerWidth()
     oldHeight = $outerContainer.outerHeight()
 
-    $container = $lightbox.find('.lb-container')
+    $container = @element.find('.lb-container')
     containerTopPadding = parseInt $container.css('padding-top'), 10
     containerRightPadding = parseInt $container.css('padding-right'), 10
     containerBottomPadding = parseInt $container.css('padding-bottom'), 10
@@ -209,81 +203,74 @@ class Lightbox
 
     newWidth = imageWidth + containerLeftPadding + containerRightPadding
     newHeight = imageHeight + containerTopPadding + containerBottomPadding
-  
+
     $outerContainer
       .width(newWidth)
       .height(newHeight)
     # if transition support OR no width and height changed
     # $outerContainer
       .one 'TransitionEnd webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
-        $lightbox.find('.lb-dataContainer').width(newWidth)
+        @element.find('.lb-dataContainer').width(newWidth)
         @showImage()
     
     if newWidth == oldWidth and newHeight == oldHeight
-      $lightbox.find('.lb-dataContainer').width(newWidth)
+      @element.find('.lb-dataContainer').width(newWidth)
       @showImage()
     
     # else
-    # $lightbox.find('.lb-dataContainer').width(newWidth)
-    # $lightbox.find('.lb-prevLink').height(newHeight)
-    # $lightbox.find('.lb-nextLink').height(newHeight)
+    # @element.find('.lb-dataContainer').width(newWidth)
+    # @element.find('.lb-prevLink').height(newHeight)
+    # @element.find('.lb-nextLink').height(newHeight)
     # @showImage()
     return
   
-  
   # Display the image and it's details and begin preload neighboring images.
   showImage: ->
-    $lightbox = $('#lightbox')
-    $lightbox.find('.lb-loader').hide()
-    $lightbox.find('.lb-image').fadeIn 'slow'
-
+    @element.find('.lb-loader').hide()
+    @element.find('.lb-image').fadeIn 'slow'
     @updateNav()
     @updateDetails()
     @preloadNeighboringImages()
-
     return
-
 
   # Display previous and next navigation if appropriate.
   updateNav: ->
-    $lightbox = $('#lightbox')
-    $lightbox.find('.lb-nav').show()
-    if @currentImageIndex > 0 then $lightbox.find('.lb-prev').show()
-    if @currentImageIndex < @album.length - 1 then $lightbox.find('.lb-next').show()
+    @element.find('.lb-nav').show()
+    if @currentImageIndex > 0 then @element.find('.lb-prev').show()
+    if @currentImageIndex < @album.length - 1 then @element.find('.lb-next').show()
     return
   
   # Display caption, image number, and closing button. 
   updateDetails: ->
-    $lightbox = $('#lightbox')
-    
     if typeof @album[@currentImageIndex].title != 'undefined' && @album[@currentImageIndex].title != ""
-      $lightbox.find('.lb-caption')
+      @element
+        .find('.lb-caption')
         .html( @album[@currentImageIndex].title)
         .fadeIn('fast')
 
     if @album.length > 1
-      $lightbox.find('.lb-number')
+      @element
+        .find('.lb-number')
         .html( @options.labelImage + ' ' + (@currentImageIndex + 1) + ' ' + @options.labelOf + '  ' + @album.length)
         .fadeIn('fast')
-    else 
-      $lightbox.find('.lb-number').hide()
+    else
+      @element.find('.lb-number').hide()
 
-    $lightbox.find('.lb-dataContainer')
+    @element
+      .find('.lb-dataContainer')
       .fadeIn @resizeDuration
     return
-    
-    
+
   # Preload previos and next images in set.  
   preloadNeighboringImages: ->
-   if @album.length > @currentImageIndex + 1
+    if @album.length > @currentImageIndex + 1
       preloadNext = new Image
       preloadNext.src = @album[@currentImageIndex + 1].link
-
+    
     if @currentImageIndex > 0
       preloadPrev = new Image
       preloadPrev.src = @album[@currentImageIndex - 1].link    
     return
-
 
   enableKeyboardNav: ->
     $(document).on 'keyup.keyboard', @keyboardAction
@@ -313,8 +300,8 @@ class Lightbox
   
   end: ->
     @disableKeyboardNav()
-    $('#lightbox').prepareTransition().addClass('transition-hidden')
-    $('#lightboxOverlay').prepareTransition().addClass('transition-hidden')
+    @element.prepareTransition().addClass('transition-hidden')
+    @elementOverlay.prepareTransition().addClass('transition-hidden')
     $('select, object, embed').css visibility: "visible"
 
 

@@ -68,6 +68,8 @@ lightbox = new Lightbox options
 
       this.album = [];
       this.currentImageIndex = void 0;
+      this.element = void 0;
+      this.elementOverlay = void 0;
       this.init();
     }
 
@@ -85,8 +87,7 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.build = function() {
-      var $lightbox,
-        _this = this;
+      var _this = this;
       $("<div>", {
         id: 'lightboxOverlay',
         "class": 'transition-hidden'
@@ -125,32 +126,29 @@ lightbox = new Lightbox options
       }).append($('<a/>', {
         "class": 'lb-close'
       }))))).appendTo($('body'));
-      $('#lightboxOverlay').on('click', function(e) {
+      this.elementOverlay = $('#lightboxOverlay');
+      this.element = $('#lightbox');
+      this.elementOverlay.on('click', function(e) {
         _this.end();
         return false;
       });
-      $lightbox = $('#lightbox');
-      $lightbox.on('click', function(e) {
+      this.element.on('click', function(e) {
         if ($(e.target).attr('id') === 'lightbox') {
           _this.end();
         }
         return false;
-      });
-      $lightbox.on('click', '.lb-outerContainer', function(e) {
+      }).on('click', '.lb-outerContainer', function(e) {
         if ($(e.target).attr('id') === 'lightbox') {
           _this.end();
         }
         return false;
-      });
-      $lightbox.on('click', '.lb-prev', function(e) {
+      }).on('click', '.lb-prev', function(e) {
         _this.changeImage(_this.currentImageIndex - 1);
         return false;
-      });
-      $lightbox.on('click', '.lb-next', function(e) {
+      }).on('click', '.lb-next', function(e) {
         _this.changeImage(_this.currentImageIndex + 1);
         return false;
-      });
-      $lightbox.on('click', '.lb-loader, .lb-close', function(e) {
+      }).on('click', '.lb-close', function(e) {
         _this.end();
         return false;
       });
@@ -158,11 +156,11 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.start = function($link) {
-      var $lightbox, $window, a, i, imageNumber, left, top, _i, _len, _ref;
+      var $window, a, i, imageNumber, left, top, _i, _len, _ref;
       $('select, object, embed').css({
         visibility: "hidden"
       });
-      $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden');
+      this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       this.album = [];
       imageNumber = 0;
       if ($link.attr('rel') === 'lightbox') {
@@ -186,8 +184,7 @@ lightbox = new Lightbox options
       $window = $(window);
       top = $window.scrollTop() + $window.height() / 10;
       left = $window.scrollLeft();
-      $lightbox = $('#lightbox');
-      $lightbox.css({
+      this.element.css({
         top: top + 'px',
         left: left + 'px'
       }).prepareTransition().removeClass('transition-hidden');
@@ -195,13 +192,12 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.changeImage = function(imageNumber) {
-      var $image, $lightbox, preloader,
+      var $image, preloader,
         _this = this;
-      $lightbox = $('#lightbox');
-      $image = $lightbox.find('.lb-image');
-      $('#lightboxOverlay').prepareTransition().removeClass('transition-hidden');
+      $image = this.element.find('.lb-image');
+      this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       $('.lb-loader').show();
-      $lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
+      this.element.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[imageNumber].link);
@@ -214,13 +210,12 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {
-      var $container, $lightbox, $outerContainer, containerBottomPadding, containerLeftPadding, containerRightPadding, containerTopPadding, newHeight, newWidth, oldHeight, oldWidth,
+      var $container, $outerContainer, containerBottomPadding, containerLeftPadding, containerRightPadding, containerTopPadding, newHeight, newWidth, oldHeight, oldWidth,
         _this = this;
-      $lightbox = $('#lightbox');
-      $outerContainer = $lightbox.find('.lb-outerContainer');
+      $outerContainer = this.element.find('.lb-outerContainer');
       oldWidth = $outerContainer.outerWidth();
       oldHeight = $outerContainer.outerHeight();
-      $container = $lightbox.find('.lb-container');
+      $container = this.element.find('.lb-container');
       containerTopPadding = parseInt($container.css('padding-top'), 10);
       containerRightPadding = parseInt($container.css('padding-right'), 10);
       containerBottomPadding = parseInt($container.css('padding-bottom'), 10);
@@ -228,49 +223,43 @@ lightbox = new Lightbox options
       newWidth = imageWidth + containerLeftPadding + containerRightPadding;
       newHeight = imageHeight + containerTopPadding + containerBottomPadding;
       $outerContainer.width(newWidth).height(newHeight).one('TransitionEnd webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
-        $lightbox.find('.lb-dataContainer').width(newWidth);
+        _this.element.find('.lb-dataContainer').width(newWidth);
         return _this.showImage();
       });
       if (newWidth === oldWidth && newHeight === oldHeight) {
-        $lightbox.find('.lb-dataContainer').width(newWidth);
+        this.element.find('.lb-dataContainer').width(newWidth);
         this.showImage();
       }
     };
 
     Lightbox.prototype.showImage = function() {
-      var $lightbox;
-      $lightbox = $('#lightbox');
-      $lightbox.find('.lb-loader').hide();
-      $lightbox.find('.lb-image').fadeIn('slow');
+      this.element.find('.lb-loader').hide();
+      this.element.find('.lb-image').fadeIn('slow');
       this.updateNav();
       this.updateDetails();
       this.preloadNeighboringImages();
     };
 
     Lightbox.prototype.updateNav = function() {
-      var $lightbox;
-      $lightbox = $('#lightbox');
-      $lightbox.find('.lb-nav').show();
+      this.element.find('.lb-nav').show();
       if (this.currentImageIndex > 0) {
-        $lightbox.find('.lb-prev').show();
+        this.element.find('.lb-prev').show();
       }
       if (this.currentImageIndex < this.album.length - 1) {
-        $lightbox.find('.lb-next').show();
+        this.element.find('.lb-next').show();
       }
     };
 
     Lightbox.prototype.updateDetails = function() {
-      var $lightbox;
-      $lightbox = $('#lightbox');
       if (typeof this.album[this.currentImageIndex].title !== 'undefined' && this.album[this.currentImageIndex].title !== "") {
-        $lightbox.find('.lb-caption').html(this.album[this.currentImageIndex].title).fadeIn('fast');
+        this.element.find('.lb-caption').html(this.album[this.currentImageIndex].title).fadeIn('fast');
       }
       if (this.album.length > 1) {
-        $lightbox.find('.lb-number').html(this.options.labelImage + ' ' + (this.currentImageIndex + 1) + ' ' + this.options.labelOf + '  ' + this.album.length).fadeIn('fast');
+        this.element.find('.lb-number').html(this.options.labelImage + ' ' + (this.currentImageIndex + 1) + ' ' + this.options.labelOf + '  ' + this.album.length).fadeIn('fast');
       } else {
-        $lightbox.find('.lb-number').hide();
+        this.element.find('.lb-number').hide();
       }
-      $lightbox.find('.lb-dataContainer').fadeIn(this.resizeDuration);
+      this.element.find('.lb-dataContainer').fadeIn(this.resizeDuration);
     };
 
     Lightbox.prototype.preloadNeighboringImages = function() {
@@ -315,8 +304,8 @@ lightbox = new Lightbox options
 
     Lightbox.prototype.end = function() {
       this.disableKeyboardNav();
-      $('#lightbox').prepareTransition().addClass('transition-hidden');
-      $('#lightboxOverlay').prepareTransition().addClass('transition-hidden');
+      this.element.prepareTransition().addClass('transition-hidden');
+      this.elementOverlay.prepareTransition().addClass('transition-hidden');
       return $('select, object, embed').css({
         visibility: "visible"
       });
