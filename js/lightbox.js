@@ -196,6 +196,7 @@ lightbox = new Lightbox options
       this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       $('.lb-loader').show();
       this.element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
+      this.currentImageIndex = imageNumber;
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[imageNumber].link);
@@ -204,7 +205,6 @@ lightbox = new Lightbox options
         return _this.sizeContainer(preloader.width, preloader.height);
       };
       preloader.src = this.album[imageNumber].link;
-      this.currentImageIndex = imageNumber;
     };
 
     Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {

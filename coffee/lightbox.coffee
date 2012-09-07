@@ -173,6 +173,8 @@ class Lightbox
     
     @element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
     
+    @currentImageIndex = imageNumber
+    
     # When image to show is preloaded, we send the width and height to sizeContainer()
     preloader = new Image
     preloader.onload = () =>
@@ -182,9 +184,8 @@ class Lightbox
       $image.height = preloader.height
       # End of bug fix
       @sizeContainer preloader.width, preloader.height
-
     preloader.src = @album[imageNumber].link
-    @currentImageIndex = imageNumber
+    
     return
 
   # Animate the size of the lightbox to fit the image we are showing
