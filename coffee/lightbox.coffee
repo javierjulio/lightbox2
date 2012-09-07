@@ -215,11 +215,6 @@ class Lightbox
       @element.find('.lb-dataContainer').width(newWidth)
       @showImage()
     
-    # else
-    # @element.find('.lb-dataContainer').width(newWidth)
-    # @element.find('.lb-prevLink').height(newHeight)
-    # @element.find('.lb-nextLink').height(newHeight)
-    # @showImage()
     return
   
   # Display the image and it's details and begin preload neighboring images.
