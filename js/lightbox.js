@@ -152,7 +152,6 @@ lightbox = new Lightbox options
         _this.end();
         return false;
       });
-      this.enableKeyboardNav();
     };
 
     Lightbox.prototype.start = function($link) {
@@ -189,6 +188,7 @@ lightbox = new Lightbox options
         left: left + 'px'
       }).prepareTransition().removeClass('transition-hidden');
       this.changeImage(imageNumber);
+      this.enableKeyboardNav();
     };
 
     Lightbox.prototype.changeImage = function(imageNumber) {

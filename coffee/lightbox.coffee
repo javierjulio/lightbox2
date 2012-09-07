@@ -124,7 +124,7 @@ class Lightbox
       .on 'click', '.lb-close', (e) =>
         @end()
         return false
-    @enableKeyboardNav()
+    
     return
 
   # Show overlay and lightbox. If the image is part of a set, add siblings to album array.
@@ -160,7 +160,7 @@ class Lightbox
       .removeClass('transition-hidden')
 
     @changeImage(imageNumber)
-    
+    @enableKeyboardNav()
     return
 
   # Hide most UI elements in preparation for the animated resizing of the lightbox.
