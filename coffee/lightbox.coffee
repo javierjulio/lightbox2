@@ -205,11 +205,15 @@ class Lightbox
     $outerContainer
       .width(newWidth)
       .height(newHeight)
-    # if transition support OR no width and height changed
-    # $outerContainer
-      .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
-        @element.find('.lb-dataContainer').width(newWidth)
-        @showImage()
+    
+    if Modernizr.csstransitions # if transition support OR no width and height changed
+      $outerContainer
+        .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
+          @element.find('.lb-dataContainer').width(newWidth)
+          @showImage()
+    else
+      @element.find('.lb-dataContainer').width(newWidth)
+      @showImage()
     
     if newWidth == oldWidth and newHeight == oldHeight
       @element.find('.lb-dataContainer').width(newWidth)
