@@ -195,7 +195,7 @@ lightbox = new Lightbox options
       $image = this.element.find('.lb-image');
       this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       $('.lb-progress-container').show();
-      this.element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
+      this.element.find('.lb-image, .lb-prev, .lb-next, .lb-numbers, .lb-caption').hide();
       this.currentImageIndex = imageNumber;
       preloader = new Image;
       preloader.onload = function() {

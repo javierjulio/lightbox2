@@ -171,7 +171,7 @@ class Lightbox
     
     $('.lb-progress-container').show()
     
-    @element.find('.lb-image, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide()
+    @element.find('.lb-image, .lb-prev, .lb-next, .lb-numbers, .lb-caption').hide()
     
     @currentImageIndex = imageNumber
     
