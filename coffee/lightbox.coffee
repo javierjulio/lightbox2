@@ -58,8 +58,8 @@ class Lightbox
     
   
   init: ->
-    @enable()
     @build()
+    @enable()
 
 
   # Loop through anchors and areamaps looking for rel attributes that contain 'lightbox'

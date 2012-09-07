@@ -72,8 +72,8 @@ lightbox = new Lightbox options
     }
 
     Lightbox.prototype.init = function() {
-      this.enable();
-      return this.build();
+      this.build();
+      return this.enable();
     };
 
     Lightbox.prototype.enable = function() {
