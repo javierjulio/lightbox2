@@ -220,19 +220,23 @@ lightbox = new Lightbox options
       containerLeftPadding = parseInt($container.css('padding-left'), 10);
       newWidth = imageWidth + containerLeftPadding + containerRightPadding;
       newHeight = imageHeight + containerTopPadding + containerBottomPadding;
-      $outerContainer.width(newWidth).height(newHeight);
-      if (Modernizr.csstransitions) {
-        $outerContainer.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
+      if (newWidth === oldWidth && newHeight === oldHeight) {
+        this.element.find('.lb-dataContainer').width(newWidth);
+        this.showImage();
+      } else if (Modernizr.csstransitions) {
+        $outerContainer.width(newWidth).height(newHeight).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
           _this.element.find('.lb-dataContainer').width(newWidth);
           return _this.showImage();
         });
       } else {
-        this.element.find('.lb-dataContainer').width(newWidth);
-        this.showImage();
-      }
-      if (newWidth === oldWidth && newHeight === oldHeight) {
-        this.element.find('.lb-dataContainer').width(newWidth);
-        this.showImage();
+        $outerContainer.animate({
+          width: newWidth,
+          height: newHeight
+        }, this.options.resizeDuration, 'swing');
+        setTimeout(function() {
+          _this.element.find('.lb-dataContainer').width(newWidth);
+          return _this.showImage();
+        }, this.options.resizeDuration, 'swing');
       }
     };
 

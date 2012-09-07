@@ -201,23 +201,27 @@ class Lightbox
     newWidth = imageWidth + containerLeftPadding + containerRightPadding
     newHeight = imageHeight + containerTopPadding + containerBottomPadding
 
-    $outerContainer
-      .width(newWidth)
-      .height(newHeight)
-    
-    if Modernizr.csstransitions # if transition support OR no width and height changed
+    if newWidth == oldWidth and newHeight == oldHeight
+      @element.find('.lb-dataContainer').width(newWidth)
+      @showImage()
+    else if Modernizr.csstransitions # if transition support OR no width and height changed
       $outerContainer
+        .width(newWidth)
+        .height(newHeight)
         .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
           @element.find('.lb-dataContainer').width(newWidth)
           @showImage()
     else
-      @element.find('.lb-dataContainer').width(newWidth)
-      @showImage()
-    
-    if newWidth == oldWidth and newHeight == oldHeight
-      @element.find('.lb-dataContainer').width(newWidth)
-      @showImage()
-    
+      $outerContainer.animate
+        width: newWidth,
+        height: newHeight
+      , @options.resizeDuration, 'swing'
+      
+      setTimeout =>
+        @element.find('.lb-dataContainer').width(newWidth)
+        @showImage()
+      , @options.resizeDuration, 'swing'
+      
     return
   
   # Display the image and it's details and begin preload neighboring images.
