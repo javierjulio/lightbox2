@@ -88,8 +88,6 @@ class Lightbox
 
   # Show overlay and lightbox. If the image is part of a set, add siblings to album array.
   start: ($link) ->
-    $('select, object, embed').css visibility: "hidden"
-    
     @elementOverlay
       .prepareTransition()
       .removeClass('transition-hidden')
@@ -271,7 +269,6 @@ class Lightbox
     @disableKeyboardActions()
     @element.prepareTransition().addClass('transition-hidden')
     @elementOverlay.prepareTransition().addClass('transition-hidden')
-    $('select, object, embed').css visibility: "visible"
     
     if Modernizr.csstransitions
       @element.one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>

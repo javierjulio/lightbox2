@@ -114,9 +114,6 @@ Thanks
 
     Lightbox.prototype.start = function($link) {
       var $element, $window, a, i, left, selectedImageIndex, top, _i, _len, _ref;
-      $('select, object, embed').css({
-        visibility: "hidden"
-      });
       this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       this.album = [];
       selectedImageIndex = 0;
@@ -282,9 +279,6 @@ Thanks
       this.disableKeyboardActions();
       this.element.prepareTransition().addClass('transition-hidden');
       this.elementOverlay.prepareTransition().addClass('transition-hidden');
-      $('select, object, embed').css({
-        visibility: "visible"
-      });
       if (Modernizr.csstransitions) {
         return this.element.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
           _this.element.remove();
