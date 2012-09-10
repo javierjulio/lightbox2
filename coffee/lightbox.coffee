@@ -102,7 +102,7 @@ class Lightbox
       .removeClass('transition-hidden')
 
     @album = []
-    imageNumber = 0
+    selectedImageIndex = 0
 
     if $link.attr('rel') is 'lightbox'
       # Single image
@@ -110,9 +110,14 @@ class Lightbox
     else
       # Image Gallery
       for a, i in $( $link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]')
-        @album.push link: $(a).attr('href'), title: $(a).attr('title')
-        if $(a).attr('href') is $link.attr('href')
-          imageNumber = i
+        $element = $(a)
+        
+        @album.push
+          link: $element.attr('href')
+          title: $element.attr('title')
+        
+        if $element.attr('href') is $link.attr('href')
+          selectedImageIndex = i
 
     # Position lightbox
     $window = $(window)
@@ -125,12 +130,12 @@ class Lightbox
       .prepareTransition()
       .removeClass('transition-hidden')
 
-    @changeImage(imageNumber)
+    @changeImage(selectedImageIndex)
     @enableKeyboardActions()
     return
 
   # Hide most UI elements in preparation for the animated resizing of the lightbox.
-  changeImage: (imageNumber) ->
+  changeImage: (index) ->
     $image = @element.find('.lb-image')
     
     if Modernizr.csstransitions
@@ -142,15 +147,15 @@ class Lightbox
       .find('.lb-progress-container').show().end()
       .find('.lb-prev, .lb-next, .lb-number, .lb-caption').hide()
     
-    @currentImageIndex = imageNumber
+    @currentImageIndex = index
     
     preloader = new Image
     preloader.onload = () =>
-      $image.attr 'src', @album[imageNumber].link
+      $image.attr 'src', @album[index].link
       $image[0].width = preloader.width
       $image[0].height = preloader.height
       @sizeContainer(preloader.width, preloader.height)
-    preloader.src = @album[imageNumber].link
+    preloader.src = @album[index].link
     
     return
 

@@ -121,13 +121,13 @@ Thanks
     };
 
     Lightbox.prototype.start = function($link) {
-      var $window, a, i, imageNumber, left, top, _i, _len, _ref;
+      var $element, $window, a, i, left, selectedImageIndex, top, _i, _len, _ref;
       $('select, object, embed').css({
         visibility: "hidden"
       });
       this.elementOverlay.prepareTransition().removeClass('transition-hidden');
       this.album = [];
-      imageNumber = 0;
+      selectedImageIndex = 0;
       if ($link.attr('rel') === 'lightbox') {
         this.album.push({
           link: $link.attr('href'),
@@ -137,12 +137,13 @@ Thanks
         _ref = $($link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]');
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           a = _ref[i];
+          $element = $(a);
           this.album.push({
-            link: $(a).attr('href'),
-            title: $(a).attr('title')
+            link: $element.attr('href'),
+            title: $element.attr('title')
           });
-          if ($(a).attr('href') === $link.attr('href')) {
-            imageNumber = i;
+          if ($element.attr('href') === $link.attr('href')) {
+            selectedImageIndex = i;
           }
         }
       }
@@ -153,11 +154,11 @@ Thanks
         top: top + 'px',
         left: left + 'px'
       }).prepareTransition().removeClass('transition-hidden');
-      this.changeImage(imageNumber);
+      this.changeImage(selectedImageIndex);
       this.enableKeyboardActions();
     };
 
-    Lightbox.prototype.changeImage = function(imageNumber) {
+    Lightbox.prototype.changeImage = function(index) {
       var $image, preloader,
         _this = this;
       $image = this.element.find('.lb-image');
@@ -167,15 +168,15 @@ Thanks
         $image.hide();
       }
       this.element.find('.lb-progress-container').show().end().find('.lb-prev, .lb-next, .lb-number, .lb-caption').hide();
-      this.currentImageIndex = imageNumber;
+      this.currentImageIndex = index;
       preloader = new Image;
       preloader.onload = function() {
-        $image.attr('src', _this.album[imageNumber].link);
+        $image.attr('src', _this.album[index].link);
         $image[0].width = preloader.width;
         $image[0].height = preloader.height;
         return _this.sizeContainer(preloader.width, preloader.height);
       };
-      preloader.src = this.album[imageNumber].link;
+      preloader.src = this.album[index].link;
     };
 
     Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {
