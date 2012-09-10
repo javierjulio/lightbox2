@@ -53,8 +53,8 @@ Thanks
 
     Lightbox.prototype.enable = function() {
       var _this = this;
-      return $('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox]', function(e) {
-        _this.start($(e.currentTarget));
+      return $('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox]', function(event) {
+        _this.start($(event.currentTarget));
         return false;
       });
     };
@@ -99,24 +99,27 @@ Thanks
       }))))).appendTo($('body'));
       this.elementOverlay = $('#lightboxOverlay');
       this.element = $('#lightbox');
-      this.elementOverlay.on('click', function(e) {
-        _this.end();
-        return false;
+      this.elementOverlay.on('click', function(event) {
+        event.preventDefault();
+        return _this.end();
       });
-      this.element.on('click', function(e) {
-        if ($(e.target).attr('id') === 'lightbox') {
-          _this.end();
+      this.element.on('click', function(event) {
+        event.preventDefault();
+        if ($(event.target).attr('id') === 'lightbox') {
+          return _this.end();
         }
-        return false;
-      }).on('click', '.lb-prev', function(e) {
-        _this.changeImage(_this.currentImageIndex - 1);
-        return false;
-      }).on('click', '.lb-next', function(e) {
-        _this.changeImage(_this.currentImageIndex + 1);
-        return false;
-      }).on('click', '.lb-close', function(e) {
-        _this.end();
-        return false;
+      }).on('click', '.lb-prev', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return _this.changeImage(_this.currentImageIndex - 1);
+      }).on('click', '.lb-next', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return _this.changeImage(_this.currentImageIndex + 1);
+      }).on('click', '.lb-close', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return _this.end();
       });
     };
 

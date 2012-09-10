@@ -36,8 +36,8 @@ class Lightbox
   # Loop through anchors and areamaps looking for rel attributes that contain 'lightbox'
   # On clicking these, start lightbox.
   enable: ->
-    $('body').on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (e) =>
-      @start $(e.currentTarget)
+    $('body').on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) =>
+      @start $(event.currentTarget)
       false
   
   # Build html for the lightbox and the overlay.
@@ -73,23 +73,26 @@ class Lightbox
     @elementOverlay = $('#lightboxOverlay')
     @element = $('#lightbox')
     
-    @elementOverlay.on 'click', (e) =>
+    @elementOverlay.on 'click', (event) =>
+      event.preventDefault()
       @end()
-      return false
     
     @element
-      .on 'click', (e) =>
-        if $(e.target).attr('id') is 'lightbox' then @end()
-        return false
-      .on 'click', '.lb-prev', (e) =>
+      .on 'click', (event) =>
+        event.preventDefault()
+        if $(event.target).attr('id') is 'lightbox' then @end()
+      .on 'click', '.lb-prev', (event) =>
+        event.preventDefault()
+        event.stopPropagation()
         @changeImage @currentImageIndex - 1
-        return false
-      .on 'click', '.lb-next', (e) =>
+      .on 'click', '.lb-next', (event) =>
+        event.preventDefault()
+        event.stopPropagation()
         @changeImage @currentImageIndex + 1
-        return false
-      .on 'click', '.lb-close', (e) =>
+      .on 'click', '.lb-close', (event) =>
+        event.preventDefault()
+        event.stopPropagation()
         @end()
-        return false
     
     return
 
@@ -106,7 +109,9 @@ class Lightbox
 
     if $link.attr('rel') is 'lightbox'
       # Single image
-      @album.push link: $link.attr('href'), title: $link.attr('title')
+      @album.push
+        link: $link.attr('href'), 
+        title: $link.attr('title')
     else
       # Image Gallery
       for a, i in $( $link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]')
