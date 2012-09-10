@@ -165,13 +165,14 @@ class Lightbox
   changeImage: (imageNumber) ->
     $image = @element.find('.lb-image')
     
-    @elementOverlay
-      .prepareTransition()
-      .removeClass('transition-hidden')
+    if Modernizr.csstransitions
+      $image.addClass('transition-hidden')
+    else
+      $image.hide()
     
-    $('.lb-progress-container').show()
-    
-    @element.find('.lb-image, .lb-prev, .lb-next, .lb-number, .lb-caption').hide()
+    @element
+      .find('.lb-progress-container').show().end()
+      .find('.lb-prev, .lb-next, .lb-number, .lb-caption').hide()
     
     @currentImageIndex = imageNumber
     
@@ -227,7 +228,13 @@ class Lightbox
   # Display the image and it's details and begin preload neighboring images.
   showImage: ->
     @element.find('.lb-progress-container').hide()
-    @element.find('.lb-image').fadeIn 'slow'
+    if Modernizr.csstransitions
+      @element
+        .find('.lb-image')
+        .prepareTransition()
+        .removeClass('transition-hidden')
+    else
+      @element.find('.lb-image').fadeIn(500)
     @updateNav()
     @updateDetails()
     @preloadNeighboringImages()

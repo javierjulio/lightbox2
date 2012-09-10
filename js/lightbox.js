@@ -193,9 +193,12 @@ lightbox = new Lightbox options
       var $image, preloader,
         _this = this;
       $image = this.element.find('.lb-image');
-      this.elementOverlay.prepareTransition().removeClass('transition-hidden');
-      $('.lb-progress-container').show();
-      this.element.find('.lb-image, .lb-prev, .lb-next, .lb-number, .lb-caption').hide();
+      if (Modernizr.csstransitions) {
+        $image.addClass('transition-hidden');
+      } else {
+        $image.hide();
+      }
+      this.element.find('.lb-progress-container').show().end().find('.lb-prev, .lb-next, .lb-number, .lb-caption').hide();
       this.currentImageIndex = imageNumber;
       preloader = new Image;
       preloader.onload = function() {
@@ -242,7 +245,11 @@ lightbox = new Lightbox options
 
     Lightbox.prototype.showImage = function() {
       this.element.find('.lb-progress-container').hide();
-      this.element.find('.lb-image').fadeIn('slow');
+      if (Modernizr.csstransitions) {
+        this.element.find('.lb-image').prepareTransition().removeClass('transition-hidden');
+      } else {
+        this.element.find('.lb-image').fadeIn(500);
+      }
       this.updateNav();
       this.updateDetails();
       this.preloadNeighboringImages();
