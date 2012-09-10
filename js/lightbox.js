@@ -227,11 +227,8 @@ Thanks
         this.element.find('.lb-caption').html(this.album[this.currentImageIndex].title).fadeIn('fast');
       }
       if (this.album.length > 1) {
-        this.element.find('.lb-number').html(this.options.labelImage + ' ' + (this.currentImageIndex + 1) + ' ' + this.options.labelOf + '  ' + this.album.length).fadeIn('fast');
-      } else {
-        this.element.find('.lb-number').hide();
+        this.element.find('.lb-number').html("" + this.options.labelImage + " " + (this.currentImageIndex + 1) + " " + this.options.labelOf + " " + this.album.length).fadeIn('fast');
       }
-      this.element.find('.lb-dataContainer').fadeIn(this.resizeDuration);
     };
 
     Lightbox.prototype.preloadNeighboringImages = function() {

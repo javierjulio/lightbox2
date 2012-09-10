@@ -213,20 +213,14 @@ class Lightbox
     if @album[@currentImageIndex].title? and @album[@currentImageIndex].title != ""
       @element
         .find('.lb-caption')
-        .html( @album[@currentImageIndex].title)
+        .html(@album[@currentImageIndex].title)
         .fadeIn('fast')
 
     if @album.length > 1
       @element
         .find('.lb-number')
-        .html( @options.labelImage + ' ' + (@currentImageIndex + 1) + ' ' + @options.labelOf + '  ' + @album.length)
+        .html("#{@options.labelImage} #{@currentImageIndex + 1} #{@options.labelOf} #{@album.length}")
         .fadeIn('fast')
-    else
-      @element.find('.lb-number').hide()
-
-    @element
-      .find('.lb-dataContainer')
-      .fadeIn @resizeDuration
     return
 
   preloadNeighboringImages: ->
