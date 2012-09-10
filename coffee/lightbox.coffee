@@ -22,23 +22,13 @@ class LightboxOptions
 
 
 class Lightbox
-  constructor: (@options) ->
+  constructor: (@options, @linkElement) ->
     @album = []
     @currentImageIndex = undefined
     @element = undefined
     @elementOverlay = undefined
-    @init()
-  
-  init: ->
     @build()
-    @enable()
-  
-  # Loop through anchors and areamaps looking for rel attributes that contain 'lightbox'
-  # On clicking these, start lightbox.
-  enable: ->
-    $('body').on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) =>
-      @start $(event.currentTarget)
-      false
+    @start(@linkElement)
   
   # Build html for the lightbox and the overlay.
   # Attach event handlers to the new DOM elements. click click click
@@ -210,7 +200,7 @@ class Lightbox
         .prepareTransition()
         .removeClass('transition-hidden')
     else
-      @element.find('.lb-image').fadeIn(500)
+      @element.find('.lb-image').fadeIn()
     @updateNavigation()
     @updateDetails()
     @preloadNeighboringImages()
@@ -282,6 +272,14 @@ class Lightbox
     @element.prepareTransition().addClass('transition-hidden')
     @elementOverlay.prepareTransition().addClass('transition-hidden')
     $('select, object, embed').css visibility: "visible"
+    
+    if Modernizr.csstransitions
+      @element.one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
+        @element.remove()
+        @elementOverlay.remove()
+    else
+      @element.remove()
+      @elementOverlay.remove()
 
 
 $ ->
@@ -301,5 +299,8 @@ $ ->
         el.addClass('is-transitioning')
         el[0].offsetWidth
   
-  options = new LightboxOptions
-  lightbox = new Lightbox options
+  $('body').on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) =>
+    event.preventDefault()
+    event.stopPropagation()
+    options = new LightboxOptions
+    lightbox = new Lightbox options, $(event.currentTarget)

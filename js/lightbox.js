@@ -35,29 +35,18 @@ Thanks
 
   Lightbox = (function() {
 
-    function Lightbox(options) {
+    function Lightbox(options, linkElement) {
       this.options = options;
+      this.linkElement = linkElement;
       this.keyboardAction = __bind(this.keyboardAction, this);
 
       this.album = [];
       this.currentImageIndex = void 0;
       this.element = void 0;
       this.elementOverlay = void 0;
-      this.init();
-    }
-
-    Lightbox.prototype.init = function() {
       this.build();
-      return this.enable();
-    };
-
-    Lightbox.prototype.enable = function() {
-      var _this = this;
-      return $('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox]', function(event) {
-        _this.start($(event.currentTarget));
-        return false;
-      });
-    };
+      this.start(this.linkElement);
+    }
 
     Lightbox.prototype.build = function() {
       var _this = this;
@@ -220,7 +209,7 @@ Thanks
       if (Modernizr.csstransitions) {
         this.element.find('.lb-image').prepareTransition().removeClass('transition-hidden');
       } else {
-        this.element.find('.lb-image').fadeIn(500);
+        this.element.find('.lb-image').fadeIn();
       }
       this.updateNavigation();
       this.updateDetails();
@@ -289,12 +278,22 @@ Thanks
     };
 
     Lightbox.prototype.end = function() {
+      var _this = this;
       this.disableKeyboardActions();
       this.element.prepareTransition().addClass('transition-hidden');
       this.elementOverlay.prepareTransition().addClass('transition-hidden');
-      return $('select, object, embed').css({
+      $('select, object, embed').css({
         visibility: "visible"
       });
+      if (Modernizr.csstransitions) {
+        return this.element.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
+          _this.element.remove();
+          return _this.elementOverlay.remove();
+        });
+      } else {
+        this.element.remove();
+        return this.elementOverlay.remove();
+      }
     };
 
     return Lightbox;
@@ -302,7 +301,7 @@ Thanks
   })();
 
   $(function() {
-    var lightbox, options;
+    var _this = this;
     $.fn.prepareTransition = function() {
       return this.each(function() {
         var cl, duration, el;
@@ -321,8 +320,13 @@ Thanks
         }
       });
     };
-    options = new LightboxOptions;
-    return lightbox = new Lightbox(options);
+    return $('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox]', function(event) {
+      var lightbox, options;
+      event.preventDefault();
+      event.stopPropagation();
+      options = new LightboxOptions;
+      return lightbox = new Lightbox(options, $(event.currentTarget));
+    });
   });
 
 }).call(this);
