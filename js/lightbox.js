@@ -255,19 +255,18 @@ Thanks
     };
 
     Lightbox.prototype.keyboardAction = function(event) {
-      var KEYCODE_ESC, KEYCODE_LEFTARROW, KEYCODE_RIGHTARROW, key, keycode;
+      var KEYCODE_ESC, KEYCODE_LEFTARROW, KEYCODE_RIGHTARROW, keycode;
       KEYCODE_ESC = 27;
       KEYCODE_LEFTARROW = 37;
       KEYCODE_RIGHTARROW = 39;
       keycode = event.keyCode;
-      key = String.fromCharCode(keycode).toLowerCase();
-      if (keycode === KEYCODE_ESC || key.match(/x|o|c/)) {
+      if (keycode === KEYCODE_ESC) {
         this.end();
-      } else if (key === 'p' || keycode === KEYCODE_LEFTARROW) {
+      } else if (keycode === KEYCODE_LEFTARROW) {
         if (this.currentImageIndex !== 0) {
           this.changeImage(this.currentImageIndex - 1);
         }
-      } else if (key === 'n' || keycode === KEYCODE_RIGHTARROW) {
+      } else if (keycode === KEYCODE_RIGHTARROW) {
         if (this.currentImageIndex < this.album.length - 1) {
           this.changeImage(this.currentImageIndex + 1);
         }
