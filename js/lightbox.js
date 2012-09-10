@@ -247,11 +247,11 @@ Thanks
     };
 
     Lightbox.prototype.enableKeyboardActions = function() {
-      $(document).on('keyup.keyboard', this.keyboardAction);
+      $(document).on('keyup.lightbox', this.keyboardAction);
     };
 
     Lightbox.prototype.disableKeyboardActions = function() {
-      $(document).off('.keyboard');
+      $(document).off('.lightbox');
     };
 
     Lightbox.prototype.keyboardAction = function(event) {

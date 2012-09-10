@@ -240,11 +240,11 @@ class Lightbox
     return
 
   enableKeyboardActions: ->
-    $(document).on 'keyup.keyboard', @keyboardAction
+    $(document).on 'keyup.lightbox', @keyboardAction
     return
 
   disableKeyboardActions: ->
-    $(document).off '.keyboard'
+    $(document).off '.lightbox'
     return
 
   keyboardAction: (event) =>
