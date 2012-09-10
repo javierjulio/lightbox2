@@ -79,10 +79,7 @@ class Lightbox
     
     @element
       .on 'click', (e) =>
-        if $(e.target).attr('id') == 'lightbox' then @end()
-        return false
-      .on 'click', '.lb-outerContainer', (e) =>
-        if $(e.target).attr('id') == 'lightbox' then @end()
+        if $(e.target).attr('id') is 'lightbox' then @end()
         return false
       .on 'click', '.lb-prev', (e) =>
         @changeImage @currentImageIndex - 1
@@ -107,17 +104,17 @@ class Lightbox
     @album = []
     imageNumber = 0
 
-    if $link.attr('rel') == 'lightbox'
-      # If image is not part of a set
+    if $link.attr('rel') is 'lightbox'
+      # Single image
       @album.push link: $link.attr('href'), title: $link.attr('title')
     else
-      # Image is part of a set
+      # Image Gallery
       for a, i in $( $link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]')
         @album.push link: $(a).attr('href'), title: $(a).attr('title')
-        if $(a).attr('href') == $link.attr('href')
+        if $(a).attr('href') is $link.attr('href')
           imageNumber = i
 
-    # Position lightbox 
+    # Position lightbox
     $window = $(window)
     top = $window.scrollTop() + $window.height()/10
     left = $window.scrollLeft()
@@ -172,10 +169,10 @@ class Lightbox
     newWidth = imageWidth + containerLeftPadding + containerRightPadding
     newHeight = imageHeight + containerTopPadding + containerBottomPadding
 
-    if newWidth == oldWidth and newHeight == oldHeight
+    if newWidth is oldWidth and newHeight is oldHeight
       @element.find('.lb-dataContainer').width(newWidth)
       @showImage()
-    else if Modernizr.csstransitions # if transition support OR no width and height changed
+    else if Modernizr.csstransitions
       $outerContainer
         .width(newWidth)
         .height(newHeight)
@@ -215,7 +212,7 @@ class Lightbox
     return
 
   updateDetails: ->
-    if typeof @album[@currentImageIndex].title != 'undefined' && @album[@currentImageIndex].title != ""
+    if @album[@currentImageIndex].title? and @album[@currentImageIndex].title != ""
       @element
         .find('.lb-caption')
         .html( @album[@currentImageIndex].title)
@@ -234,7 +231,6 @@ class Lightbox
       .fadeIn @resizeDuration
     return
 
-  # Preload previos and next images in set.  
   preloadNeighboringImages: ->
     if @album.length > @currentImageIndex + 1
       preloadNext = new Image
@@ -242,17 +238,17 @@ class Lightbox
     
     if @currentImageIndex > 0
       preloadPrev = new Image
-      preloadPrev.src = @album[@currentImageIndex - 1].link    
+      preloadPrev.src = @album[@currentImageIndex - 1].link
     return
 
   enableKeyboardActions: ->
     $(document).on 'keyup.keyboard', @keyboardAction
     return
-  
+
   disableKeyboardActions: ->
     $(document).off '.keyboard'
     return
-  
+
   keyboardAction: (event) =>
     KEYCODE_ESC = 27
     KEYCODE_LEFTARROW = 37
@@ -261,12 +257,12 @@ class Lightbox
     keycode = event.keyCode
     key = String.fromCharCode(keycode).toLowerCase()
     
-    if keycode == KEYCODE_ESC || key.match(/x|o|c/)
+    if keycode is KEYCODE_ESC || key.match(/x|o|c/)
       @end()
-    else if key == 'p' || keycode == KEYCODE_LEFTARROW
+    else if key is 'p' || keycode is KEYCODE_LEFTARROW
       if @currentImageIndex != 0
         @changeImage @currentImageIndex - 1
-    else if key == 'n' || keycode == KEYCODE_RIGHTARROW
+    else if key is 'n' || keycode is KEYCODE_RIGHTARROW
       if @currentImageIndex < @album.length - 1
         @changeImage @currentImageIndex + 1
     return
@@ -291,7 +287,7 @@ $ ->
       $.each cl, (idx, itm) ->
         duration =  parseFloat( el.css( itm ) ) || duration
       
-      if duration != 0
+      if duration isnt 0
         el.addClass('is-transitioning')
         el[0].offsetWidth
   

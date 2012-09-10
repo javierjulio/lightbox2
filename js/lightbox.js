@@ -108,11 +108,6 @@ Thanks
           _this.end();
         }
         return false;
-      }).on('click', '.lb-outerContainer', function(e) {
-        if ($(e.target).attr('id') === 'lightbox') {
-          _this.end();
-        }
-        return false;
       }).on('click', '.lb-prev', function(e) {
         _this.changeImage(_this.currentImageIndex - 1);
         return false;
@@ -238,7 +233,7 @@ Thanks
     };
 
     Lightbox.prototype.updateDetails = function() {
-      if (typeof this.album[this.currentImageIndex].title !== 'undefined' && this.album[this.currentImageIndex].title !== "") {
+      if ((this.album[this.currentImageIndex].title != null) && this.album[this.currentImageIndex].title !== "") {
         this.element.find('.lb-caption').html(this.album[this.currentImageIndex].title).fadeIn('fast');
       }
       if (this.album.length > 1) {
