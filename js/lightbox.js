@@ -14,39 +14,12 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
 Thanks
 - Scott Upton(uptonic.com), Peter-Paul Koch(quirksmode.com), and Thomas Fuchs(mir.aculo.us) for ideas, libs, and snippets.
 - Artemy Tregubenko (arty.name) for cleanup and help in updating to latest proto-aculous in v2.05.
-
-
-Table of Contents
-=================
-LightboxOptions
-
-Lightbox
-- constructor
-- init
-- enable
-- build
-- start
-- changeImage
-- sizeContainer
-- showImage
-- updateNav
-- updateDetails
-- preloadNeigbhoringImages
-- enableKeyboardNav
-- disableKeyboardNav
-- keyboardAction
-- end
-
-options = new LightboxOptions
-lightbox = new Lightbox options
 */
 
 
 (function() {
-  var $, Lightbox, LightboxOptions,
+  var Lightbox, LightboxOptions,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-  $ = jQuery;
 
   LightboxOptions = (function() {
 
@@ -186,7 +159,7 @@ lightbox = new Lightbox options
         left: left + 'px'
       }).prepareTransition().removeClass('transition-hidden');
       this.changeImage(imageNumber);
-      this.enableKeyboardNav();
+      this.enableKeyboardActions();
     };
 
     Lightbox.prototype.changeImage = function(imageNumber) {
@@ -250,12 +223,12 @@ lightbox = new Lightbox options
       } else {
         this.element.find('.lb-image').fadeIn(500);
       }
-      this.updateNav();
+      this.updateNavigation();
       this.updateDetails();
       this.preloadNeighboringImages();
     };
 
-    Lightbox.prototype.updateNav = function() {
+    Lightbox.prototype.updateNavigation = function() {
       if (this.currentImageIndex > 0) {
         this.element.find('.lb-prev').show();
       }
@@ -288,11 +261,11 @@ lightbox = new Lightbox options
       }
     };
 
-    Lightbox.prototype.enableKeyboardNav = function() {
+    Lightbox.prototype.enableKeyboardActions = function() {
       $(document).on('keyup.keyboard', this.keyboardAction);
     };
 
-    Lightbox.prototype.disableKeyboardNav = function() {
+    Lightbox.prototype.disableKeyboardActions = function() {
       $(document).off('.keyboard');
     };
 
@@ -317,7 +290,7 @@ lightbox = new Lightbox options
     };
 
     Lightbox.prototype.end = function() {
-      this.disableKeyboardNav();
+      this.disableKeyboardActions();
       this.element.prepareTransition().addClass('transition-hidden');
       this.elementOverlay.prepareTransition().addClass('transition-hidden');
       return $('select, object, embed').css({

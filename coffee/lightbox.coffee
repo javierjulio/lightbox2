@@ -12,36 +12,7 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
 Thanks
 - Scott Upton(uptonic.com), Peter-Paul Koch(quirksmode.com), and Thomas Fuchs(mir.aculo.us) for ideas, libs, and snippets.
 - Artemy Tregubenko (arty.name) for cleanup and help in updating to latest proto-aculous in v2.05.
-
-
-Table of Contents
-=================
-LightboxOptions
-
-Lightbox
-- constructor
-- init
-- enable
-- build
-- start
-- changeImage
-- sizeContainer
-- showImage
-- updateNav
-- updateDetails
-- preloadNeigbhoringImages
-- enableKeyboardNav
-- disableKeyboardNav
-- keyboardAction
-- end
-
-options = new LightboxOptions
-lightbox = new Lightbox options
-
 ###
-
-# Use local alias
-$ = jQuery
 
 class LightboxOptions
   constructor: ->
@@ -158,7 +129,7 @@ class Lightbox
       .removeClass('transition-hidden')
 
     @changeImage(imageNumber)
-    @enableKeyboardNav()
+    @enableKeyboardActions()
     return
 
   # Hide most UI elements in preparation for the animated resizing of the lightbox.
@@ -176,13 +147,12 @@ class Lightbox
     
     @currentImageIndex = imageNumber
     
-    # When image to show is preloaded, we send the width and height to sizeContainer()
     preloader = new Image
     preloader.onload = () =>
       $image.attr 'src', @album[imageNumber].link
       $image[0].width = preloader.width
       $image[0].height = preloader.height
-      @sizeContainer preloader.width, preloader.height
+      @sizeContainer(preloader.width, preloader.height)
     preloader.src = @album[imageNumber].link
     
     return
@@ -224,8 +194,7 @@ class Lightbox
       , @options.resizeDuration, 'swing'
       
     return
-  
-  # Display the image and it's details and begin preload neighboring images.
+
   showImage: ->
     @element.find('.lb-progress-container').hide()
     if Modernizr.csstransitions
@@ -235,18 +204,16 @@ class Lightbox
         .removeClass('transition-hidden')
     else
       @element.find('.lb-image').fadeIn(500)
-    @updateNav()
+    @updateNavigation()
     @updateDetails()
     @preloadNeighboringImages()
     return
 
-  # Display previous and next navigation if appropriate.
-  updateNav: ->
+  updateNavigation: ->
     @element.find('.lb-prev').show() if @currentImageIndex > 0
     @element.find('.lb-next').show() if @currentImageIndex < @album.length - 1
     return
-  
-  # Display caption, image number, and closing button. 
+
   updateDetails: ->
     if typeof @album[@currentImageIndex].title != 'undefined' && @album[@currentImageIndex].title != ""
       @element
@@ -278,11 +245,11 @@ class Lightbox
       preloadPrev.src = @album[@currentImageIndex - 1].link    
     return
 
-  enableKeyboardNav: ->
+  enableKeyboardActions: ->
     $(document).on 'keyup.keyboard', @keyboardAction
     return
   
-  disableKeyboardNav: ->
+  disableKeyboardActions: ->
     $(document).off '.keyboard'
     return
   
@@ -305,7 +272,7 @@ class Lightbox
     return
   
   end: ->
-    @disableKeyboardNav()
+    @disableKeyboardActions()
     @element.prepareTransition().addClass('transition-hidden')
     @elementOverlay.prepareTransition().addClass('transition-hidden')
     $('select, object, embed').css visibility: "visible"
