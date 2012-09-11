@@ -59,9 +59,7 @@ Thanks
         "class": 'transition-hidden'
       }).append($('<div/>', {
         "class": 'lb-outerContainer'
-      }).append($('<a/>', {
-        "class": 'lb-close'
-      }), $('<div/>', {
+      }).append($('<a class="lb-close">&#10006;</a>'), $('<div/>', {
         "class": 'lb-container'
       }).append($('<img/>', {
         "class": 'lb-image'
@@ -78,14 +76,10 @@ Thanks
       })))), $('<div/>', {
         "class": 'lb-dataContainer'
       }).append($('<div/>', {
-        "class": 'lb-data'
-      }).append($('<div/>', {
-        "class": 'lb-details'
-      }).append($('<span/>', {
         "class": 'lb-caption'
-      }), $('<span/>', {
+      }), $('<div/>', {
         "class": 'lb-number'
-      }))))).appendTo($('body'));
+      }))).appendTo($('body'));
       this.elementOverlay = $('#lightboxOverlay');
       this.element = $('#lightbox');
       this.elementOverlay.on('click', function(event) {
@@ -169,20 +163,14 @@ Thanks
     };
 
     Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {
-      var $container, $outerContainer, containerBottomPadding, containerLeftPadding, containerRightPadding, containerTopPadding, newHeight, newWidth, oldHeight, oldWidth,
+      var $outerContainer, currentHeight, currentWidth, newHeight, newWidth,
         _this = this;
       $outerContainer = this.element.find('.lb-outerContainer');
-      oldWidth = $outerContainer.outerWidth();
-      oldHeight = $outerContainer.outerHeight();
-      $container = this.element.find('.lb-container');
-      containerTopPadding = parseInt($container.css('padding-top'), 10);
-      containerRightPadding = parseInt($container.css('padding-right'), 10);
-      containerBottomPadding = parseInt($container.css('padding-bottom'), 10);
-      containerLeftPadding = parseInt($container.css('padding-left'), 10);
-      newWidth = imageWidth + containerLeftPadding + containerRightPadding;
-      newHeight = imageHeight + containerTopPadding + containerBottomPadding;
-      if (newWidth === oldWidth && newHeight === oldHeight) {
-        this.element.find('.lb-dataContainer').width(newWidth);
+      currentWidth = $outerContainer.width();
+      currentHeight = $outerContainer.height();
+      newWidth = imageWidth;
+      newHeight = imageHeight;
+      if (newWidth === currentWidth && newHeight === currentHeight) {
         this.showImage();
       } else if (Modernizr.csstransitions) {
         $outerContainer.width(newWidth).height(newHeight).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
@@ -197,7 +185,7 @@ Thanks
         setTimeout(function() {
           _this.element.find('.lb-dataContainer').width(newWidth);
           return _this.showImage();
-        }, this.options.resizeDuration, 'swing');
+        }, this.options.resizeDuration);
       }
     };
 

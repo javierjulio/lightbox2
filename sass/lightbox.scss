@@ -55,13 +55,10 @@
   margin: 0 auto;
   @include border-radius(4px);
   @include transition(height 0.7s ease, width 0.7s ease);
-}
-
-.lb-container {
   padding: 10px;
 }
 
-.lb-progress-container {
+.lb-progress-container, .lb-nav {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -78,15 +75,6 @@
   position: absolute;
   top: 50%;
   width: 32px;
-}
-
-.lb-nav {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 10;
 }
 
 .lb-prev, .lb-next {
@@ -116,35 +104,37 @@
 }
 
 .lb-dataContainer {
-  margin: 0 auto;
-  width: 100%;
-}
-
-.lb-data {
   color: #bbb;
-  padding: 5px 10px 0 10px;
+  line-height: 1.3em;
+  margin: 0 auto;
+  padding: 8px 10px 0 10px;
+  text-align: left;
+  width: 100%;
   
-  .lb-details {
-    line-height: 1.1em;
-    text-align: left;
-  }
   .lb-caption {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
   }
+  
   .lb-number {
-    display: block;
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
 .lb-close {
-  background: url("../images/close.png") no-repeat;
+  color: #fff;
   cursor: pointer;
-  height: 27px;
+  font-size: 28px;
+  height: 30px;
+  line-height: 30px;
   outline: none;
   position: absolute;
   right: 0;
+  text-align: center;
   top: -35px;
-  width: 27px;
+  width: 30px;
+  
+  &:hover {
+    color: #fff;
+  }
 }

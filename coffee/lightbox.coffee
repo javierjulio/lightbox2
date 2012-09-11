@@ -38,7 +38,7 @@ class Lightbox
     
     $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
       $('<div/>', class: 'lb-outerContainer').append(
-        $('<a/>', class: 'lb-close'),
+        $('<a class="lb-close">&#10006;</a>'),
         $('<div/>', class: 'lb-container').append(
           $('<img/>', class: 'lb-image'),
           $('<div/>',class: 'lb-nav').append(
@@ -51,12 +51,8 @@ class Lightbox
         )
       ),
       $('<div/>', class: 'lb-dataContainer').append(
-        $('<div/>', class: 'lb-data').append(          
-          $('<div/>', class: 'lb-details').append(
-            $('<span/>', class: 'lb-caption'),
-            $('<span/>', class: 'lb-number')
-          )
-        )
+        $('<div/>', class: 'lb-caption'),
+        $('<div/>', class: 'lb-number')
       )
     ).appendTo $('body')
     
@@ -155,20 +151,12 @@ class Lightbox
   # Animate the size of the lightbox to fit the image we are showing
   sizeContainer: (imageWidth, imageHeight) ->
     $outerContainer = @element.find('.lb-outerContainer')
-    oldWidth = $outerContainer.outerWidth()
-    oldHeight = $outerContainer.outerHeight()
-
-    $container = @element.find('.lb-container')
-    containerTopPadding = parseInt $container.css('padding-top'), 10
-    containerRightPadding = parseInt $container.css('padding-right'), 10
-    containerBottomPadding = parseInt $container.css('padding-bottom'), 10
-    containerLeftPadding = parseInt $container.css('padding-left'), 10
-
-    newWidth = imageWidth + containerLeftPadding + containerRightPadding
-    newHeight = imageHeight + containerTopPadding + containerBottomPadding
-
-    if newWidth is oldWidth and newHeight is oldHeight
-      @element.find('.lb-dataContainer').width(newWidth)
+    currentWidth = $outerContainer.width()
+    currentHeight = $outerContainer.height()
+    newWidth = imageWidth
+    newHeight = imageHeight
+    
+    if newWidth is currentWidth and newHeight is currentHeight
       @showImage()
     else if Modernizr.csstransitions
       $outerContainer
@@ -186,7 +174,7 @@ class Lightbox
       setTimeout =>
         @element.find('.lb-dataContainer').width(newWidth)
         @showImage()
-      , @options.resizeDuration, 'swing'
+      , @options.resizeDuration
       
     return
 
