@@ -38,6 +38,10 @@ class Lightbox
     
     $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
       $('<div/>', class: 'lb-outerContainer').append(
+        $('<div/>', class: 'lb-titleContainer').append(
+          $('<div/>', class: 'lb-number'),
+          $('<div/>', class: 'lb-title')
+        ),
         $('<a class="lb-close">&#10006;</a>'),
         $('<div/>', class: 'lb-container').append(
           $('<img/>', class: 'lb-image'),
@@ -49,10 +53,6 @@ class Lightbox
             $('<div/>', class: 'lb-progress')
           )
         )
-      ),
-      $('<div/>', class: 'lb-dataContainer').append(
-        $('<div/>', class: 'lb-caption'),
-        $('<div/>', class: 'lb-number')
       )
     ).appendTo $('body')
     
@@ -125,6 +125,8 @@ class Lightbox
 
   # Hide most UI elements in preparation for the animated resizing of the lightbox.
   changeImage: (index) ->
+    @currentImageIndex = index
+    
     $image = @element.find('.lb-image')
     
     if Modernizr.csstransitions
@@ -134,9 +136,9 @@ class Lightbox
     
     @element
       .find('.lb-progress-container').show().end()
-      .find('.lb-prev, .lb-next, .lb-number, .lb-caption').hide()
+      .find('.lb-prev, .lb-next').hide()
     
-    @currentImageIndex = index
+    @updateDetails()
     
     preloader = new Image
     preloader.onload = () =>
@@ -145,14 +147,14 @@ class Lightbox
       $image[0].height = preloader.height
       @sizeContainer(preloader.width, preloader.height)
     preloader.src = @album[index].link
-    
     return
 
   # Animate the size of the lightbox to fit the image we are showing
   sizeContainer: (imageWidth, imageHeight) ->
     $outerContainer = @element.find('.lb-outerContainer')
     currentWidth = $outerContainer.width()
-    currentHeight = $outerContainer.height()
+    $imageContainer = @element.find('.lb-container')
+    currentHeight = $imageContainer.height()
     newWidth = imageWidth
     newHeight = imageHeight
     
@@ -161,18 +163,22 @@ class Lightbox
     else if Modernizr.csstransitions
       $outerContainer
         .width(newWidth)
+        .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
+          @showImage()
+      $imageContainer
         .height(newHeight)
         .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
-          @element.find('.lb-dataContainer').width(newWidth)
           @showImage()
     else
       $outerContainer.animate
         width: newWidth,
-        height: newHeight
+      , @options.resizeDuration, 'swing'
+      
+      $imageContainer.animate
+        height: newHeight,
       , @options.resizeDuration, 'swing'
       
       setTimeout =>
-        @element.find('.lb-dataContainer').width(newWidth)
         @showImage()
       , @options.resizeDuration
       
@@ -180,15 +186,15 @@ class Lightbox
 
   showImage: ->
     @element.find('.lb-progress-container').hide()
+    
     if Modernizr.csstransitions
       @element
         .find('.lb-image')
-        .prepareTransition()
         .removeClass('transition-hidden')
     else
       @element.find('.lb-image').fadeIn()
+    
     @updateNavigation()
-    @updateDetails()
     @preloadNeighboringImages()
     return
 
@@ -200,15 +206,13 @@ class Lightbox
   updateDetails: ->
     if @album[@currentImageIndex].title? and @album[@currentImageIndex].title != ""
       @element
-        .find('.lb-caption')
+        .find('.lb-title')
         .html(@album[@currentImageIndex].title)
-        .fadeIn('fast')
 
     if @album.length > 1
       @element
         .find('.lb-number')
-        .html("#{@options.labelImage} #{@currentImageIndex + 1} #{@options.labelOf} #{@album.length}")
-        .fadeIn('fast')
+        .html("#{@currentImageIndex + 1} #{@options.labelOf} #{@album.length}")
     return
 
   preloadNeighboringImages: ->

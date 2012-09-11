@@ -59,7 +59,13 @@ Thanks
         "class": 'transition-hidden'
       }).append($('<div/>', {
         "class": 'lb-outerContainer'
-      }).append($('<a class="lb-close">&#10006;</a>'), $('<div/>', {
+      }).append($('<div/>', {
+        "class": 'lb-titleContainer'
+      }).append($('<div/>', {
+        "class": 'lb-number'
+      }), $('<div/>', {
+        "class": 'lb-title'
+      })), $('<a class="lb-close">&#10006;</a>'), $('<div/>', {
         "class": 'lb-container'
       }).append($('<img/>', {
         "class": 'lb-image'
@@ -73,13 +79,7 @@ Thanks
         "class": 'lb-progress-container'
       }).append($('<div/>', {
         "class": 'lb-progress'
-      })))), $('<div/>', {
-        "class": 'lb-dataContainer'
-      }).append($('<div/>', {
-        "class": 'lb-caption'
-      }), $('<div/>', {
-        "class": 'lb-number'
-      }))).appendTo($('body'));
+      }))))).appendTo($('body'));
       this.elementOverlay = $('#lightboxOverlay');
       this.element = $('#lightbox');
       this.elementOverlay.on('click', function(event) {
@@ -144,14 +144,15 @@ Thanks
     Lightbox.prototype.changeImage = function(index) {
       var $image, preloader,
         _this = this;
+      this.currentImageIndex = index;
       $image = this.element.find('.lb-image');
       if (Modernizr.csstransitions) {
         $image.addClass('transition-hidden');
       } else {
         $image.hide();
       }
-      this.element.find('.lb-progress-container').show().end().find('.lb-prev, .lb-next, .lb-number, .lb-caption').hide();
-      this.currentImageIndex = index;
+      this.element.find('.lb-progress-container').show().end().find('.lb-prev, .lb-next').hide();
+      this.updateDetails();
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[index].link);
@@ -163,27 +164,31 @@ Thanks
     };
 
     Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {
-      var $outerContainer, currentHeight, currentWidth, newHeight, newWidth,
+      var $imageContainer, $outerContainer, currentHeight, currentWidth, newHeight, newWidth,
         _this = this;
       $outerContainer = this.element.find('.lb-outerContainer');
       currentWidth = $outerContainer.width();
-      currentHeight = $outerContainer.height();
+      $imageContainer = this.element.find('.lb-container');
+      currentHeight = $imageContainer.height();
       newWidth = imageWidth;
       newHeight = imageHeight;
       if (newWidth === currentWidth && newHeight === currentHeight) {
         this.showImage();
       } else if (Modernizr.csstransitions) {
-        $outerContainer.width(newWidth).height(newHeight).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
-          _this.element.find('.lb-dataContainer').width(newWidth);
+        $outerContainer.width(newWidth).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
+          return _this.showImage();
+        });
+        $imageContainer.height(newHeight).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
           return _this.showImage();
         });
       } else {
         $outerContainer.animate({
-          width: newWidth,
+          width: newWidth
+        }, this.options.resizeDuration, 'swing');
+        $imageContainer.animate({
           height: newHeight
         }, this.options.resizeDuration, 'swing');
         setTimeout(function() {
-          _this.element.find('.lb-dataContainer').width(newWidth);
           return _this.showImage();
         }, this.options.resizeDuration);
       }
@@ -192,12 +197,11 @@ Thanks
     Lightbox.prototype.showImage = function() {
       this.element.find('.lb-progress-container').hide();
       if (Modernizr.csstransitions) {
-        this.element.find('.lb-image').prepareTransition().removeClass('transition-hidden');
+        this.element.find('.lb-image').removeClass('transition-hidden');
       } else {
         this.element.find('.lb-image').fadeIn();
       }
       this.updateNavigation();
-      this.updateDetails();
       this.preloadNeighboringImages();
     };
 
@@ -212,10 +216,10 @@ Thanks
 
     Lightbox.prototype.updateDetails = function() {
       if ((this.album[this.currentImageIndex].title != null) && this.album[this.currentImageIndex].title !== "") {
-        this.element.find('.lb-caption').html(this.album[this.currentImageIndex].title).fadeIn('fast');
+        this.element.find('.lb-title').html(this.album[this.currentImageIndex].title);
       }
       if (this.album.length > 1) {
-        this.element.find('.lb-number').html("" + this.options.labelImage + " " + (this.currentImageIndex + 1) + " " + this.options.labelOf + " " + this.album.length).fadeIn('fast');
+        this.element.find('.lb-number').html("" + (this.currentImageIndex + 1) + " " + this.options.labelOf + " " + this.album.length);
       }
     };
 

@@ -1,19 +1,11 @@
 @import "mixins";
 
-.transition-hidden {
-  opacity: 0;
-}
-
-.transition-visible {
-  opacity: 1;
-}
-
 .is-transitioning {
   display: block !important;
   visibility: visible !important;
 }
 
-#lightboxOverlay, #lightbox, .lb-image {
+#lightboxOverlay, #lightbox {
   @include transition(opacity 0.4s ease);
   
   &.transition-hidden {
@@ -22,40 +14,51 @@
   }
 }
 
+.lb-image {
+  @include transition(opacity 0.4s ease);
+  
+  &.transition-hidden {
+    opacity: 0;
+    @include transition(opacity 0s ease);
+  }
+}
+
 #lightboxOverlay {
+  background-color: #000;
   bottom: 0;
+  left: 0;
+  @include opacity(0.8);
   position: fixed;
   right: 0;
   top: 0;
-  left: 0;
-  z-index: 9999;
-  background-color: #000;
-  @include opacity(0.8);
+  z-index: 999;
 }
 
 #lightbox {
-  position: absolute;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   left: 0;
+  position: absolute;
   width: 100%;
-  z-index: 10000;
-  text-align: center;
-  font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
-  font-weight: normal;
-  
+  z-index: 1000;
+
   a img {
     border: none;
   }
 }
 
 .lb-outerContainer {
-  position: relative;
-  background-color: #fff;
-  width: 350px;
-  height: 350px;
+  background-color: #f2f2f2;
   margin: 0 auto;
-  @include border-radius(4px);
-  @include transition(height 0.7s ease, width 0.7s ease);
   padding: 10px;
+  position: relative;
+  @include transition(width 0.5s ease);
+  width: 350px;
+}
+
+.lb-container {
+  height: 350px;
+  position: relative;
+  @include transition(height 0.5s ease);
 }
 
 .lb-progress-container, .lb-nav {
@@ -103,38 +106,48 @@
   }
 }
 
-.lb-dataContainer {
-  color: #bbb;
+.lb-titleContainer {
+  background-color: #f2f2f2;
+  color: #808080;
+  font-size: 12px;
   line-height: 1.3em;
   margin: 0 auto;
-  padding: 8px 10px 0 10px;
+  min-height: 14px;
+  padding: 5px 0 15px 0;
+  position: relative;
   text-align: left;
   width: 100%;
   
-  .lb-caption {
-    font-size: 14px;
-    font-weight: bold;
+  .lb-number {
+    left: 0;
+    position: absolute;
   }
   
-  .lb-number {
-    font-size: 12px;
+  .lb-title {
+    font-weight: bold;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 60%;
   }
 }
 
 .lb-close {
-  color: #fff;
+  color: #666;
   cursor: pointer;
-  font-size: 28px;
-  height: 30px;
-  line-height: 30px;
+  font-size: 20px;
+  height: 22px;
+  line-height: 22px;
   outline: none;
   position: absolute;
-  right: 0;
+  right: 10px;
   text-align: center;
-  top: -35px;
-  width: 30px;
+  top: 11px;
+  width: 22px;
   
   &:hover {
-    color: #fff;
+    color: #333;
   }
 }
