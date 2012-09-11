@@ -16,8 +16,8 @@ Thanks
 
 class LightboxOptions
   constructor: ->
-    @resizeDuration = 700
-    @labelImage = "Image" # Change to localize to non-english language
+    @resizeDuration = 500
+    @labelImage = "Image"
     @labelOf = "of"
 
 

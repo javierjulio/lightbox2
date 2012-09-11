@@ -24,7 +24,7 @@ Thanks
   LightboxOptions = (function() {
 
     function LightboxOptions() {
-      this.resizeDuration = 700;
+      this.resizeDuration = 500;
       this.labelImage = "Image";
       this.labelOf = "of";
     }
