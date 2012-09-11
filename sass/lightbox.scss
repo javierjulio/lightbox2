@@ -52,11 +52,11 @@
   padding: 10px;
   position: relative;
   @include transition(width 0.5s ease);
-  width: 350px;
+  width: 400px;
 }
 
 .lb-container {
-  height: 350px;
+  height: 400px;
   position: relative;
   @include transition(height 0.5s ease);
 }
