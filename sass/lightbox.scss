@@ -69,15 +69,8 @@
   top: 0;
 }
 
-.lb-progress {
-  background: url("../images/loading.gif");
-  height: 32px;
-  left: 50%;
-  margin-top: -16px;
-  margin-left: -16px;
-  position: absolute;
-  top: 50%;
-  width: 32px;
+.lb-progress-container {
+  background: #fff url('../images/loading.gif') no-repeat center center;
 }
 
 .lb-prev, .lb-next {
@@ -94,7 +87,7 @@
   left: 0;
   
   &:hover {
-    background: url(../images/prev.png) left 48% no-repeat;
+    background: url('../images/prev.png') left 48% no-repeat;
   }
 }
 
@@ -102,7 +95,7 @@
   right: 0;
   
   &:hover {
-    background: url(../images/next.png) right 48% no-repeat;
+    background: url('../images/next.png') right 48% no-repeat;
   }
 }
 
@@ -144,10 +137,12 @@
   position: absolute;
   right: 10px;
   text-align: center;
+  text-decoration: none;
   top: 11px;
   width: 22px;
   
   &:hover {
     color: #333;
+    text-decoration: none;
   }
 }

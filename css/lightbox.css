@@ -1,1 +1,168 @@
-.is-transitioning{display:block !important;visibility:visible !important}#lightboxOverlay,#lightbox{-webkit-transition:opacity 0.4s ease-in-out;-moz-transition:opacity 0.4s ease-in-out;-ms-transition:opacity 0.4s ease-in-out;-o-transition:opacity 0.4s ease-in-out;transition:opacity 0.4s ease-in-out}#lightboxOverlay.transition-hidden,#lightbox.transition-hidden{display:none;opacity:0}.lb-image{-webkit-transition:opacity 0.4s ease-in-out;-moz-transition:opacity 0.4s ease-in-out;-ms-transition:opacity 0.4s ease-in-out;-o-transition:opacity 0.4s ease-in-out;transition:opacity 0.4s ease-in-out}.lb-image.transition-hidden{opacity:0;-webkit-transition:opacity 0s ease-in-out;-moz-transition:opacity 0s ease-in-out;-ms-transition:opacity 0s ease-in-out;-o-transition:opacity 0s ease-in-out;transition:opacity 0s ease-in-out}#lightboxOverlay{background-color:#000;bottom:0;left:0;filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);opacity:0.8;position:fixed;right:0;top:0;z-index:999}#lightbox{font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;left:0;position:absolute;width:100%;z-index:1000}#lightbox a img{border:none}.lb-outerContainer{background-color:#f2f2f2;margin:0 auto;padding:10px;position:relative;-webkit-transition:width 0.5s ease-in-out;-moz-transition:width 0.5s ease-in-out;-ms-transition:width 0.5s ease-in-out;-o-transition:width 0.5s ease-in-out;transition:width 0.5s ease-in-out;width:400px}.lb-container{height:400px;position:relative;-webkit-transition:height 0.5s ease-in-out;-moz-transition:height 0.5s ease-in-out;-ms-transition:height 0.5s ease-in-out;-o-transition:height 0.5s ease-in-out;transition:height 0.5s ease-in-out}.lb-progress-container,.lb-nav{bottom:0;left:0;position:absolute;right:0;top:0}.lb-progress{background:url("../images/loading.gif");height:32px;left:50%;margin-top:-16px;margin-left:-16px;position:absolute;top:50%;width:32px}.lb-prev,.lb-next{background-image:url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");bottom:0;height:100%;outline:none;position:absolute;top:0;width:49%}.lb-prev{left:0}.lb-prev:hover{background:url(../images/prev.png) left 48% no-repeat}.lb-next{right:0}.lb-next:hover{background:url(../images/next.png) right 48% no-repeat}.lb-titleContainer{background-color:#f2f2f2;color:#808080;font-size:12px;line-height:1.3em;margin:0 auto;min-height:14px;padding:5px 0 15px 0;position:relative;text-align:left;width:100%}.lb-titleContainer .lb-number{left:0;position:absolute}.lb-titleContainer .lb-title{font-weight:bold;margin:0 auto;overflow:hidden;text-align:center;text-overflow:ellipsis;white-space:nowrap;width:60%}.lb-close{color:#666;cursor:pointer;font-size:20px;height:22px;line-height:22px;outline:none;position:absolute;right:10px;text-align:center;top:11px;width:22px}.lb-close:hover{color:#333}
+/* When setting box-sizing: border-box; when you apply a border and padding 
+ * to that element that value combined is part of the width set. So if you 
+ * have a 1px border, 5px padding and width of 100px, you're rendered width 
+ * remains at 100px but the default setting (content-box) the border and 
+ * padding are applied on top of the width so the actual rendered width in 
+ * that example would be 112px (1px + 1px + 5px + 5px).
+ * http://css-tricks.com/box-sizing/
+ */
+.is-transitioning {
+  display: block !important;
+  visibility: visible !important;
+}
+
+#lightboxOverlay, #lightbox {
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#lightboxOverlay.transition-hidden, #lightbox.transition-hidden {
+  display: none;
+  opacity: 0;
+}
+
+.lb-image {
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -ms-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+.lb-image.transition-hidden {
+  opacity: 0;
+  -webkit-transition: opacity 0s ease-in-out;
+  -moz-transition: opacity 0s ease-in-out;
+  -ms-transition: opacity 0s ease-in-out;
+  -o-transition: opacity 0s ease-in-out;
+  transition: opacity 0s ease-in-out;
+}
+
+#lightboxOverlay {
+  background-color: #000;
+  bottom: 0;
+  left: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 999;
+}
+
+#lightbox {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+#lightbox a img {
+  border: none;
+}
+
+.lb-outerContainer {
+  background-color: #f2f2f2;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  -webkit-transition: width 0.5s ease-in-out;
+  -moz-transition: width 0.5s ease-in-out;
+  -ms-transition: width 0.5s ease-in-out;
+  -o-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
+  width: 400px;
+}
+
+.lb-container {
+  height: 400px;
+  position: relative;
+  -webkit-transition: height 0.5s ease-in-out;
+  -moz-transition: height 0.5s ease-in-out;
+  -ms-transition: height 0.5s ease-in-out;
+  -o-transition: height 0.5s ease-in-out;
+  transition: height 0.5s ease-in-out;
+}
+
+.lb-progress-container, .lb-nav {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.lb-progress-container {
+  background: white url("../images/loading.gif") no-repeat center center;
+}
+
+.lb-prev, .lb-next {
+  background-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+  /* Trick IE into showing hover */
+  bottom: 0;
+  height: 100%;
+  outline: none;
+  position: absolute;
+  top: 0;
+  width: 49%;
+}
+
+.lb-prev {
+  left: 0;
+}
+.lb-prev:hover {
+  background: url("../images/prev.png") left 48% no-repeat;
+}
+
+.lb-next {
+  right: 0;
+}
+.lb-next:hover {
+  background: url("../images/next.png") right 48% no-repeat;
+}
+
+.lb-titleContainer {
+  background-color: #f2f2f2;
+  color: #808080;
+  font-size: 12px;
+  line-height: 1.3em;
+  margin: 0 auto;
+  min-height: 14px;
+  padding: 5px 0 15px 0;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+.lb-titleContainer .lb-number {
+  left: 0;
+  position: absolute;
+}
+.lb-titleContainer .lb-title {
+  font-weight: bold;
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 60%;
+}
+
+.lb-close {
+  color: #666;
+  cursor: pointer;
+  font-size: 20px;
+  height: 22px;
+  line-height: 22px;
+  outline: none;
+  position: absolute;
+  right: 10px;
+  text-align: center;
+  text-decoration: none;
+  top: 11px;
+  width: 22px;
+}
+.lb-close:hover {
+  color: #333;
+  text-decoration: none;
+}
