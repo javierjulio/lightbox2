@@ -6,7 +6,7 @@
 }
 
 #lightboxOverlay, #lightbox {
-  @include transition(opacity 0.4s ease);
+  @include transition(opacity 0.4s ease-in-out);
   
   &.transition-hidden {
     display: none;
@@ -15,11 +15,11 @@
 }
 
 .lb-image {
-  @include transition(opacity 0.4s ease);
+  @include transition(opacity 0.4s ease-in-out);
   
   &.transition-hidden {
     opacity: 0;
-    @include transition(opacity 0s ease);
+    @include transition(opacity 0s ease-in-out);
   }
 }
 
@@ -51,14 +51,14 @@
   margin: 0 auto;
   padding: 10px;
   position: relative;
-  @include transition(width 0.5s ease);
+  @include transition(width 0.5s ease-in-out);
   width: 400px;
 }
 
 .lb-container {
   height: 400px;
   position: relative;
-  @include transition(height 0.5s ease);
+  @include transition(height 0.5s ease-in-out);
 }
 
 .lb-progress-container, .lb-nav {
