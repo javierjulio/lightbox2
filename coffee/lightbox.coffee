@@ -42,44 +42,34 @@ class Lightbox
     ).appendTo $('body')
     return
 
-  # Show overlay and lightbox. If the image is part of a set, add siblings to album array.
-  start: ($link) ->
-    @elementOverlay
-      .prepareTransition()
-      .removeClass('transition-hidden')
-
+  start: ($link) =>
+    @element = $('#lightbox')
     @album = []
     selectedImageIndex = 0
 
-    if $link.attr('rel') is 'lightbox'
-      # Single image
-      @album.push
-        link: $link.attr('href'), 
-        title: $link.attr('title')
-    else
-      # Image Gallery
-      for a, i in $( $link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]')
-        $element = $(a)
-        
-        @album.push
-          link: $element.attr('href')
-          title: $element.attr('title')
-        
-        if $element.attr('href') is $link.attr('href')
-          selectedImageIndex = i
+    if $link.attr('rel') is 'lightbox' # single image
+      elements = [$link]
+    else # image gallery
+      elements = $( $link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]')
 
-    # Position lightbox
-    $window = $(window)
-    top = $window.scrollTop() + $window.height()/10
-    left = $window.scrollLeft()
-    @element
-      .css
-        top: top + 'px'
-        left: left + 'px'
-      .prepareTransition()
-      .removeClass('transition-hidden')
+    elements.data('lightbox', this)
+
+    for a, i in elements
+      $element = $(a)
+      
+      @album.push
+        link: $element.attr('href')
+        title: $element.attr('title')
+
+      if $element.attr('href') is $link.attr('href')
+        selectedImageIndex = i
+
+    @element.removeClass('transition-hidden')
 
     @changeImage(selectedImageIndex)
+
+    @updateDetails()
+    @enableClickActions()
     @enableKeyboardActions()
     return
 

@@ -22,6 +22,8 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       this.linkElement = linkElement;
       this.keyboardAction = __bind(this.keyboardAction, this);
 
+      this.start = __bind(this.start, this);
+
       this.album = [];
       this.currentImageIndex = void 0;
       this.element = void 0;
@@ -60,37 +62,31 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
     };
 
     Lightbox.prototype.start = function($link) {
-      var $element, $window, a, i, left, selectedImageIndex, top, _i, _len, _ref;
-      this.elementOverlay.prepareTransition().removeClass('transition-hidden');
+      var $element, a, elements, i, selectedImageIndex, _i, _len;
+      this.element = $('#lightbox');
       this.album = [];
       selectedImageIndex = 0;
       if ($link.attr('rel') === 'lightbox') {
-        this.album.push({
-          link: $link.attr('href'),
-          title: $link.attr('title')
-        });
+        elements = [$link];
       } else {
-        _ref = $($link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]');
-        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-          a = _ref[i];
-          $element = $(a);
-          this.album.push({
-            link: $element.attr('href'),
-            title: $element.attr('title')
-          });
-          if ($element.attr('href') === $link.attr('href')) {
-            selectedImageIndex = i;
-          }
+        elements = $($link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]');
+      }
+      elements.data('lightbox', this);
+      for (i = _i = 0, _len = elements.length; _i < _len; i = ++_i) {
+        a = elements[i];
+        $element = $(a);
+        this.album.push({
+          link: $element.attr('href'),
+          title: $element.attr('title')
+        });
+        if ($element.attr('href') === $link.attr('href')) {
+          selectedImageIndex = i;
         }
       }
-      $window = $(window);
-      top = $window.scrollTop() + $window.height() / 10;
-      left = $window.scrollLeft();
-      this.element.css({
-        top: top + 'px',
-        left: left + 'px'
-      }).prepareTransition().removeClass('transition-hidden');
+      this.element.removeClass('transition-hidden');
       this.changeImage(selectedImageIndex);
+      this.updateDetails();
+      this.enableClickActions();
       this.enableKeyboardActions();
     };
 
