@@ -248,24 +248,6 @@ class Lightbox
       @element.remove()
       @elementOverlay.remove()
 
-
-$ ->
-  $.fn.prepareTransition = ->
-    return this.each ->
-      el = $(this)
-      
-      el.one 'TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', ->
-        el.removeClass('is-transitioning')
-      
-      cl = ["transition-duration", "-moz-transition-duration", "-webkit-transition-duration", "-o-transition-duration", "-ms-transition-duration"]
-      duration = 0
-      $.each cl, (idx, itm) ->
-        duration =  parseFloat( el.css( itm ) ) || duration
-      
-      if duration isnt 0
-        el.addClass('is-transitioning')
-        el[0].offsetWidth
-
 $(document).on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) ->
   event.preventDefault()
   event.stopPropagation()

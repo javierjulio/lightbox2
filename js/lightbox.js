@@ -263,27 +263,6 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
 
   })();
 
-  $(function() {
-    return $.fn.prepareTransition = function() {
-      return this.each(function() {
-        var cl, duration, el;
-        el = $(this);
-        el.one('TransitionEnd webkitTransitionEnd transitionend oTransitionEnd MSTransitionEnd', function() {
-          return el.removeClass('is-transitioning');
-        });
-        cl = ["transition-duration", "-moz-transition-duration", "-webkit-transition-duration", "-o-transition-duration", "-ms-transition-duration"];
-        duration = 0;
-        $.each(cl, function(idx, itm) {
-          return duration = parseFloat(el.css(itm)) || duration;
-        });
-        if (duration !== 0) {
-          el.addClass('is-transitioning');
-          return el[0].offsetWidth;
-        }
-      });
-    };
-  });
-
   $(document).on('click', 'a[rel^=lightbox], area[rel^=lightbox]', function(event) {
     event.preventDefault();
     event.stopPropagation();
