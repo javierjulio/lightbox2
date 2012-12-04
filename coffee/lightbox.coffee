@@ -17,6 +17,7 @@ class Lightbox
     @options = $.extend {}, $.fn.lightbox.defaults, options, @linkElement.data()
     @build()
 
+  # TODO: refactor so HTML is a settings default and is built as one string rather than all jQuery objects
   build: ->
     $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
       $('<div/>', class: 'lb-outer-container').append(
