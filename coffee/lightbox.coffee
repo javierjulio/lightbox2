@@ -96,14 +96,13 @@ class Lightbox
 
   showImage: ->
     @element.find('.lb-progress-container').hide()
-    
+
     if Modernizr.csstransitions
-      @element
-        .find('.lb-image')
-        .removeClass('transition-hidden')
+      @element.find('.lb-image').removeClass('transition-hidden')
     else
-      @element.find('.lb-image').fadeIn()
-    
+      @element.find('.lb-image').show()
+
+    @updateDetails()
     @updateNavigation()
     @preloadNeighboringImages()
     return

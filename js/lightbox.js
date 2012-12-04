@@ -115,8 +115,9 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       if (Modernizr.csstransitions) {
         this.element.find('.lb-image').removeClass('transition-hidden');
       } else {
-        this.element.find('.lb-image').fadeIn();
+        this.element.find('.lb-image').show();
       }
+      this.updateDetails();
       this.updateNavigation();
       this.preloadNeighboringImages();
     };
