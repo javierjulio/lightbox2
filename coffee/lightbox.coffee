@@ -1,37 +1,22 @@
 ###
-Lightbox v2.51
-by Lokesh Dhakar - http://www.lokeshdhakar.com
+Rewritten by Javier Julio (https://github.com/javierjulio/lightbox2)
 
-For more information, visit:
-http://lokeshdhakar.com/projects/lightbox2/
+Lightbox v2.51 (http://lokeshdhakar.com/projects/lightbox2/)
+by Lokesh Dhakar (http://www.lokeshdhakar.com)
 
 Licensed under the Creative Commons Attribution 2.5 License - http://creativecommons.org/licenses/by/2.5/
 - free for use in both personal and commercial projects
 - attribution requires leaving author name, author link, and the license info intact
-	
-Thanks
-- Scott Upton(uptonic.com), Peter-Paul Koch(quirksmode.com), and Thomas Fuchs(mir.aculo.us) for ideas, libs, and snippets.
-- Artemy Tregubenko (arty.name) for cleanup and help in updating to latest proto-aculous in v2.05.
 ###
 
-class LightboxOptions
-  constructor: ->
-    @resizeDuration = 500
-    @labelImage = "Image"
-    @labelOf = "of"
-
-
 class Lightbox
-  constructor: (@options, @linkElement) ->
+  constructor: (@linkElement, options) ->
     @album = []
     @currentImageIndex = undefined
     @element = undefined
-    @elementOverlay = undefined
+    @options = $.extend {}, $.fn.lightbox.defaults, options, @linkElement.data()
     @build()
-    @start(@linkElement)
-  
-  # Build html for the lightbox and the overlay.
-  # Attach event handlers to the new DOM elements. click click click
+
   build: ->
     $("<div>", id: 'lightboxOverlay', class: 'transition-hidden')
       .appendTo($('body'))
@@ -280,9 +265,21 @@ $ ->
       if duration isnt 0
         el.addClass('is-transitioning')
         el[0].offsetWidth
-  
-  $('body').on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) =>
-    event.preventDefault()
-    event.stopPropagation()
-    options = new LightboxOptions
-    lightbox = new Lightbox options, $(event.currentTarget)
+
+$(document).on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) ->
+  event.preventDefault()
+  event.stopPropagation()
+  $(this).lightbox()
+
+$.fn.lightbox = (options) ->
+  this.each ->
+    $el = $(this)
+    data = $el.data 'lightbox'
+    if !data then $el.data('lightbox', (data = new Lightbox($el, options)))
+    data.start($el)
+
+$.fn.lightbox.Constructor = Lightbox
+
+$.fn.lightbox.defaults =
+  labelImage: 'Image'
+  labelOf: 'of'
