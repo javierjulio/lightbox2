@@ -167,6 +167,37 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       }
     };
 
+    Lightbox.prototype.enableClickActions = function() {
+      var _this = this;
+      this.element.on('click.lightbox', function(event) {
+        if ($(event.target).attr('id') === 'lightbox') {
+          return _this.end();
+        }
+      }).on('click.lightbox', '.lb-prev', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return _this.changeImage(_this.currentImageIndex - 1);
+      }).on('click.lightbox', '.lb-next', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return _this.changeImage(_this.currentImageIndex + 1);
+      }).on('click.lightbox', '.lb-close', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return _this.end();
+      });
+      return $(window).on('resize.lightbox', function(event) {
+        var imageContainer;
+        imageContainer = _this.element.find('.lb-image-container');
+        return imageContainer.css('line-height', "" + (imageContainer.height()) + "px");
+      }).trigger('resize.lightbox');
+    };
+
+    Lightbox.prototype.disableClickActions = function() {
+      this.element.off('click.lightbox');
+      return $(window).off('resize.lightbox');
+    };
+
     Lightbox.prototype.enableKeyboardActions = function() {
       $(document).on('keyup.lightbox', this.keyboardAction);
     };

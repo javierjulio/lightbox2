@@ -147,6 +147,33 @@ class Lightbox
       preloadPrev.src = @album[@currentImageIndex - 1].link
     return
 
+  enableClickActions: ->
+    @element
+      .on 'click.lightbox', (event) =>
+        if $(event.target).attr('id') is 'lightbox' then @end()
+      .on 'click.lightbox', '.lb-prev', (event) =>
+        event.preventDefault()
+        event.stopPropagation()
+        @changeImage @currentImageIndex - 1
+      .on 'click.lightbox', '.lb-next', (event) =>
+        event.preventDefault()
+        event.stopPropagation()
+        @changeImage @currentImageIndex + 1
+      .on 'click.lightbox', '.lb-close', (event) =>
+        event.preventDefault()
+        event.stopPropagation()
+        @end()
+
+    $(window)
+      .on 'resize.lightbox', (event) =>
+        imageContainer = @element.find('.lb-image-container')
+        imageContainer.css('line-height', "#{imageContainer.height()}px")
+      .trigger('resize.lightbox')
+
+  disableClickActions: ->
+    @element.off 'click.lightbox'
+    $(window).off 'resize.lightbox'
+
   enableKeyboardActions: ->
     $(document).on 'keyup.lightbox', @keyboardAction
     return
