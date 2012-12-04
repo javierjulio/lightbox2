@@ -107,6 +107,16 @@ class Lightbox
     @preloadNeighboringImages()
     return
 
+  enableNavigation: ->
+    @enableKeyboardActions()
+    @updateNavigation()
+    return
+
+  disableNavigation: ->
+    @disableKeyboardActions()
+    @element.find('.lb-prev, .lb-next').hide()
+    return
+
   updateNavigation: ->
     @element.find('.lb-prev').show() if @currentImageIndex > 0
     @element.find('.lb-next').show() if @currentImageIndex < @album.length - 1

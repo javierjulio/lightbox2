@@ -122,6 +122,16 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       this.preloadNeighboringImages();
     };
 
+    Lightbox.prototype.enableNavigation = function() {
+      this.enableKeyboardActions();
+      this.updateNavigation();
+    };
+
+    Lightbox.prototype.disableNavigation = function() {
+      this.disableKeyboardActions();
+      this.element.find('.lb-prev, .lb-next').hide();
+    };
+
     Lightbox.prototype.updateNavigation = function() {
       if (this.currentImageIndex > 0) {
         this.element.find('.lb-prev').show();
