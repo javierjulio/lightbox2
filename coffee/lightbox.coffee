@@ -73,65 +73,25 @@ class Lightbox
     @enableKeyboardActions()
     return
 
-  # Hide most UI elements in preparation for the animated resizing of the lightbox.
   changeImage: (index) ->
     @currentImageIndex = index
-    
+
     $image = @element.find('.lb-image')
-    
+
     if Modernizr.csstransitions
       $image.addClass('transition-hidden')
     else
       $image.hide()
-    
-    @element
-      .find('.lb-progress-container').show().end()
-      .find('.lb-prev, .lb-next').hide()
-    
-    @updateDetails()
-    
+
+    @element.find('.lb-progress-container').show()
+
+    @element.find('.lb-prev, .lb-next').hide()
+
     preloader = new Image
     preloader.onload = () =>
-      $image.attr 'src', @album[index].link
-      $image[0].width = preloader.width
-      $image[0].height = preloader.height
-      @sizeContainer(preloader.width, preloader.height)
-    preloader.src = @album[index].link
-    return
-
-  # Animate the size of the lightbox to fit the image we are showing
-  sizeContainer: (imageWidth, imageHeight) ->
-    $outerContainer = @element.find('.lb-outerContainer')
-    currentWidth = $outerContainer.width()
-    $imageContainer = @element.find('.lb-container')
-    currentHeight = $imageContainer.height()
-    newWidth = imageWidth
-    newHeight = imageHeight
-    
-    if newWidth is currentWidth and newHeight is currentHeight
+      $image.attr('src', @album[index].link)
       @showImage()
-    else if Modernizr.csstransitions
-      $outerContainer
-        .width(newWidth)
-        .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
-          @showImage()
-      $imageContainer
-        .height(newHeight)
-        .one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
-          @showImage()
-    else
-      $outerContainer.animate
-        width: newWidth,
-      , @options.resizeDuration, 'swing'
-      
-      $imageContainer.animate
-        height: newHeight,
-      , @options.resizeDuration, 'swing'
-      
-      setTimeout =>
-        @showImage()
-      , @options.resizeDuration
-      
+    preloader.src = @album[index].link
     return
 
   showImage: ->

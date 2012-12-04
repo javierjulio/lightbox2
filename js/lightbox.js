@@ -100,47 +100,14 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       } else {
         $image.hide();
       }
-      this.element.find('.lb-progress-container').show().end().find('.lb-prev, .lb-next').hide();
-      this.updateDetails();
+      this.element.find('.lb-progress-container').show();
+      this.element.find('.lb-prev, .lb-next').hide();
       preloader = new Image;
       preloader.onload = function() {
         $image.attr('src', _this.album[index].link);
-        $image[0].width = preloader.width;
-        $image[0].height = preloader.height;
-        return _this.sizeContainer(preloader.width, preloader.height);
+        return _this.showImage();
       };
       preloader.src = this.album[index].link;
-    };
-
-    Lightbox.prototype.sizeContainer = function(imageWidth, imageHeight) {
-      var $imageContainer, $outerContainer, currentHeight, currentWidth, newHeight, newWidth,
-        _this = this;
-      $outerContainer = this.element.find('.lb-outerContainer');
-      currentWidth = $outerContainer.width();
-      $imageContainer = this.element.find('.lb-container');
-      currentHeight = $imageContainer.height();
-      newWidth = imageWidth;
-      newHeight = imageHeight;
-      if (newWidth === currentWidth && newHeight === currentHeight) {
-        this.showImage();
-      } else if (Modernizr.csstransitions) {
-        $outerContainer.width(newWidth).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
-          return _this.showImage();
-        });
-        $imageContainer.height(newHeight).one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
-          return _this.showImage();
-        });
-      } else {
-        $outerContainer.animate({
-          width: newWidth
-        }, this.options.resizeDuration, 'swing');
-        $imageContainer.animate({
-          height: newHeight
-        }, this.options.resizeDuration, 'swing');
-        setTimeout(function() {
-          return _this.showImage();
-        }, this.options.resizeDuration);
-      }
     };
 
     Lightbox.prototype.showImage = function() {
