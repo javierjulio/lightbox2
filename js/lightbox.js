@@ -68,10 +68,11 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       selectedImageIndex = 0;
       if ($link.attr('rel') === 'lightbox') {
         elements = [$link];
+        $link.data('lightbox', this);
       } else {
         elements = $($link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]');
+        elements.data('lightbox', this);
       }
-      elements.data('lightbox', this);
       for (i = _i = 0, _len = elements.length; _i < _len; i = ++_i) {
         a = elements[i];
         $element = $(a);

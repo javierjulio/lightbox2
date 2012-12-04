@@ -49,10 +49,10 @@ class Lightbox
 
     if $link.attr('rel') is 'lightbox' # single image
       elements = [$link]
+      $link.data('lightbox', this)
     else # image gallery
       elements = $( $link.prop("tagName") + '[rel="' + $link.attr('rel') + '"]')
-
-    elements.data('lightbox', this)
+      elements.data('lightbox', this)
 
     for a, i in elements
       $element = $(a)
