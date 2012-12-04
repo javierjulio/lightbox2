@@ -30,27 +30,14 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
     }
 
     Lightbox.prototype.build = function() {
-      var _this = this;
-      $("<div>", {
-        id: 'lightboxOverlay',
-        "class": 'transition-hidden'
-      }).appendTo($('body'));
       $('<div/>', {
         id: 'lightbox',
         "class": 'transition-hidden'
       }).append($('<div/>', {
-        "class": 'lb-outerContainer'
-      }).append($('<div/>', {
-        "class": 'lb-titleContainer'
-      }).append($('<div/>', {
-        "class": 'lb-number'
-      }), $('<div/>', {
-        "class": 'lb-title'
-      })), $('<a class="lb-close">&#10006;</a>'), $('<div/>', {
-        "class": 'lb-container'
-      }).append($('<img/>', {
-        "class": 'lb-image'
-      }), $('<div/>', {
+        "class": 'lb-outer-container'
+      }).append($('<a class="lb-close">&times;</a>'), $('<div/>', {
+        "class": 'lb-image-container'
+      }).append($('<img class="lb-image transition-hidden"/>'), $('<div/>', {
         "class": 'lb-nav'
       }).append($('<a/>', {
         "class": 'lb-prev'
@@ -59,32 +46,17 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
       })), $('<div/>', {
         "class": 'lb-progress-container'
       }).append($('<div/>', {
-        "class": 'lb-progress'
+        "class": 'lb-progress',
+        text: 'Loading...'
+      }))), $('<div/>', {
+        "class": 'lb-footer'
+      }).append($('<div/>', {
+        "class": 'lb-title-container'
+      }).append($('<div/>', {
+        "class": 'lb-title'
+      }), $('<div/>', {
+        "class": 'lb-number'
       }))))).appendTo($('body'));
-      this.elementOverlay = $('#lightboxOverlay');
-      this.element = $('#lightbox');
-      this.elementOverlay.on('click', function(event) {
-        event.preventDefault();
-        return _this.end();
-      });
-      this.element.on('click', function(event) {
-        event.preventDefault();
-        if ($(event.target).attr('id') === 'lightbox') {
-          return _this.end();
-        }
-      }).on('click', '.lb-prev', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        return _this.changeImage(_this.currentImageIndex - 1);
-      }).on('click', '.lb-next', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        return _this.changeImage(_this.currentImageIndex + 1);
-      }).on('click', '.lb-close', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        return _this.end();
-      });
     };
 
     Lightbox.prototype.start = function($link) {

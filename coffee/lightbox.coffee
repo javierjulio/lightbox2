@@ -18,53 +18,27 @@ class Lightbox
     @build()
 
   build: ->
-    $("<div>", id: 'lightboxOverlay', class: 'transition-hidden')
-      .appendTo($('body'))
-    
     $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
-      $('<div/>', class: 'lb-outerContainer').append(
-        $('<div/>', class: 'lb-titleContainer').append(
-          $('<div/>', class: 'lb-number'),
-          $('<div/>', class: 'lb-title')
-        ),
-        $('<a class="lb-close">&#10006;</a>'),
-        $('<div/>', class: 'lb-container').append(
-          $('<img/>', class: 'lb-image'),
-          $('<div/>',class: 'lb-nav').append(
+      $('<div/>', class: 'lb-outer-container').append(
+        $('<a class="lb-close">&times;</a>'),
+        $('<div/>', class: 'lb-image-container').append(
+          $('<img class="lb-image transition-hidden"/>'),
+          $('<div/>', class: 'lb-nav').append(
             $('<a/>', class: 'lb-prev'),
             $('<a/>', class: 'lb-next')
           ),
           $('<div/>', class: 'lb-progress-container').append(
-            $('<div/>', class: 'lb-progress')
+            $('<div/>', class: 'lb-progress', text: 'Loading...')
+          )
+        ),
+        $('<div/>', class: 'lb-footer').append(
+          $('<div/>', class: 'lb-title-container').append(
+            $('<div/>', class: 'lb-title'),
+            $('<div/>', class: 'lb-number')
           )
         )
       )
     ).appendTo $('body')
-    
-    @elementOverlay = $('#lightboxOverlay')
-    @element = $('#lightbox')
-    
-    @elementOverlay.on 'click', (event) =>
-      event.preventDefault()
-      @end()
-    
-    @element
-      .on 'click', (event) =>
-        event.preventDefault()
-        if $(event.target).attr('id') is 'lightbox' then @end()
-      .on 'click', '.lb-prev', (event) =>
-        event.preventDefault()
-        event.stopPropagation()
-        @changeImage @currentImageIndex - 1
-      .on 'click', '.lb-next', (event) =>
-        event.preventDefault()
-        event.stopPropagation()
-        @changeImage @currentImageIndex + 1
-      .on 'click', '.lb-close', (event) =>
-        event.preventDefault()
-        event.stopPropagation()
-        @end()
-    
     return
 
   # Show overlay and lightbox. If the image is part of a set, add siblings to album array.
