@@ -203,7 +203,7 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
     };
 
     Lightbox.prototype.disableKeyboardActions = function() {
-      $(document).off('.lightbox');
+      $(document).off('keyup.lightbox');
     };
 
     Lightbox.prototype.keyboardAction = function(event) {
@@ -226,19 +226,10 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
     };
 
     Lightbox.prototype.end = function() {
-      var _this = this;
       this.disableKeyboardActions();
-      this.element.prepareTransition().addClass('transition-hidden');
-      this.elementOverlay.prepareTransition().addClass('transition-hidden');
-      if (Modernizr.csstransitions) {
-        return this.element.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(event) {
-          _this.element.remove();
-          return _this.elementOverlay.remove();
-        });
-      } else {
-        this.element.remove();
-        return this.elementOverlay.remove();
-      }
+      this.disableClickActions();
+      this.element.find('.lb-image').replaceWith('<img class="lb-image transition-hidden"/>');
+      return this.element.addClass('transition-hidden');
     };
 
     return Lightbox;

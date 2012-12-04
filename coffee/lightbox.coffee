@@ -179,7 +179,7 @@ class Lightbox
     return
 
   disableKeyboardActions: ->
-    $(document).off '.lightbox'
+    $(document).off 'keyup.lightbox'
     return
 
   keyboardAction: (event) =>
@@ -201,16 +201,9 @@ class Lightbox
 
   end: ->
     @disableKeyboardActions()
-    @element.prepareTransition().addClass('transition-hidden')
-    @elementOverlay.prepareTransition().addClass('transition-hidden')
-    
-    if Modernizr.csstransitions
-      @element.one 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', (event) =>
-        @element.remove()
-        @elementOverlay.remove()
-    else
-      @element.remove()
-      @elementOverlay.remove()
+    @disableClickActions()
+    @element.find('.lb-image').replaceWith('<img class="lb-image transition-hidden"/>')
+    @element.addClass('transition-hidden')
 
 $(document).on 'click', 'a[rel^=lightbox], area[rel^=lightbox]', (event) ->
   event.preventDefault()
