@@ -142,12 +142,17 @@ Licensed under the Creative Commons Attribution 2.5 License - http://creativecom
     };
 
     Lightbox.prototype.updateDetails = function() {
+      var countLabel, title;
+      title = "&nbsp;";
+      countLabel = "";
       if ((this.album[this.currentImageIndex].title != null) && this.album[this.currentImageIndex].title !== "") {
-        this.element.find('.lb-title').html(this.album[this.currentImageIndex].title);
+        title = this.album[this.currentImageIndex].title;
       }
+      this.element.find('.lb-title').html(title);
       if (this.album.length > 1) {
-        this.element.find('.lb-number').html("" + (this.currentImageIndex + 1) + " " + this.options.labelOf + " " + this.album.length);
+        countLabel = "" + this.options.labelImage + " " + (this.currentImageIndex + 1) + " " + this.options.labelOf + " " + this.album.length;
       }
+      this.element.find('.lb-number').html(countLabel);
     };
 
     Lightbox.prototype.preloadNeighboringImages = function() {

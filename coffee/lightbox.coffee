@@ -123,15 +123,18 @@ class Lightbox
     return
 
   updateDetails: ->
+    title = "&nbsp;"
+    countLabel = ""
+
     if @album[@currentImageIndex].title? and @album[@currentImageIndex].title != ""
-      @element
-        .find('.lb-title')
-        .html(@album[@currentImageIndex].title)
+      title = @album[@currentImageIndex].title
+
+    @element.find('.lb-title').html(title)
 
     if @album.length > 1
-      @element
-        .find('.lb-number')
-        .html("#{@currentImageIndex + 1} #{@options.labelOf} #{@album.length}")
+      countLabel = "#{@options.labelImage} #{@currentImageIndex + 1} #{@options.labelOf} #{@album.length}"
+
+    @element.find('.lb-number').html(countLabel)
     return
 
   preloadNeighboringImages: ->
