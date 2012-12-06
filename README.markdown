@@ -1,6 +1,6 @@
 # Lightbox
 
-This is a complete top to bottom rewrite of the [Lightbox2](http://lokeshdhakar.com/projects/lightbox2/) to simplify and modernize the jQuery plugin. I needed a lightbox type tool for my current work project ([myfdb.com](https://www.myfdb.com/)) that was simple enough that I could modify (and boy did I often) confidently and with little trouble. I looked at other plugins but this was the simplest using jQuery but also written in CoffeeScript (huge win). Changes include:
+This is a complete top to bottom rewrite of [Lokesh Dhakar](http://www.lokeshdhakar.com)'s [Lightbox2 plugin](http://lokeshdhakar.com/projects/lightbox2/) to simplify and modernize it. I needed a lightbox type tool for my current work project ([myfdb.com](https://www.myfdb.com/)) that was simple enough that I could modify (and boy did I often) confidently and with little trouble. I looked at other plugins but this was the simplest using jQuery but also written in CoffeeScript (huge win). Changes include:
 
 * replacing JS effects with CSS transitions (runs great on an iPad!)
 * if CSS transitions aren't supported, content is just hidden or shown as expected
