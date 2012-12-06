@@ -13,6 +13,7 @@
 
   &.transition-hidden {
     opacity: 0;
+    @include transition(opacity 0.2s ease-in, z-index 0s ease-in 0.2s); /* delay z-index change so overlay fades out and then z-index is applied to hide it */
     z-index: -5;
   }
 }
