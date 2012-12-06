@@ -18,7 +18,7 @@
  *----------------------------------------------- */
 
 body
-  background: $bodyBg url(../images/bg-checker.png)
+  background: $bodyBg
 
 body, input, textarea
   color: $color
@@ -224,9 +224,6 @@ a
 .changelog
   margin-bottom: 0.5em
   li
-    list-style: none
-    padding: 0 0 0 14px
-    background: url(../images/bullet.gif) no-repeat 0 11px
     color: #999
     .version
       color: #88A616
@@ -238,48 +235,6 @@ a
 .showOlderChanges
   color: #999
 
-
-.forums
-  float: left
-  margin: 0 $gutter $gutter 0
-  padding: 10px
-  background-color: #333
-  border: 5px solid #333
-  @include border-radius($radius)
-  @include transition( all .2s ease-out)
-  &:hover
-    border-color: $linkColor
-    background-color: #444
-  .speech
-    float: left
-    margin-right: 20px
-  .link
-    float: left
-    font-size: 36px
-    font-family: $headingFontFamily
-    font-weight: 400
-    color: white
-    line-height: 1.1em
-    .sub
-      color: $linkColor
-
-#elsewhere
-  .button
-    font-family: $headingFontFamily
-    font-weight: normal
-    font-size: 24px
-    display: block
-    float: left
-    margin: $gutter/2 $gutter/2 $gutter 0
-    padding: 10px 10px 10px 10px
-    background-color: #333
-    border: 5px solid #333
-    @include border-radius($radius)
-    @include transition( all .2s ease-out)
-    color: #fff
-    &:hover
-      background-color: #444
-      border-color: $linkColor
 
 /* misc
  *----------------------------------------------- */
@@ -444,16 +399,3 @@ hr
     padding-left: 0
     .box, .file
       float: none
-      
-  .forums
-    text-align: center
-    width: 95%
-    margin-right: 0
-    padding-right: 0
-    padding-left: 0
-    .speech, .link
-      float: none
-      
-
-
-    

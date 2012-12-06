@@ -1,11 +1,3 @@
-/* When setting box-sizing: border-box; when you apply a border and padding 
- * to that element that value combined is part of the width set. So if you 
- * have a 1px border, 5px padding and width of 100px, you're rendered width 
- * remains at 100px but the default setting (content-box) the border and 
- * padding are applied on top of the width so the actual rendered width in 
- * that example would be 112px (1px + 1px + 5px + 5px).
- * http://css-tricks.com/box-sizing/
- */
 #lightbox {
   background-color: #111;
   bottom: 0;
@@ -15,7 +7,6 @@
   top: 0;
   -webkit-transition: opacity 0.2s ease-in, z-index 0s ease-in 0s;
   -moz-transition: opacity 0.2s ease-in, z-index 0s ease-in 0s;
-  -ms-transition: opacity 0.2s ease-in, z-index 0s ease-in 0s;
   -o-transition: opacity 0.2s ease-in, z-index 0s ease-in 0s;
   transition: opacity 0.2s ease-in, z-index 0s ease-in 0s;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -26,7 +17,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.2s ease-in, z-index 0s ease-in 0.2s;
   -moz-transition: opacity 0.2s ease-in, z-index 0s ease-in 0.2s;
-  -ms-transition: opacity 0.2s ease-in, z-index 0s ease-in 0.2s;
   -o-transition: opacity 0.2s ease-in, z-index 0s ease-in 0.2s;
   transition: opacity 0.2s ease-in, z-index 0s ease-in 0.2s;
   /* delay z-index change so overlay fades out and then z-index is applied to hide it */
@@ -48,7 +38,6 @@
   max-width: 100%;
   -webkit-transition: opacity 0.2s ease-in;
   -moz-transition: opacity 0.2s ease-in;
-  -ms-transition: opacity 0.2s ease-in;
   -o-transition: opacity 0.2s ease-in;
   transition: opacity 0.2s ease-in;
   vertical-align: middle;
@@ -58,7 +47,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.2s ease-out;
   -moz-transition: opacity 0.2s ease-out;
-  -ms-transition: opacity 0.2s ease-out;
   -o-transition: opacity 0.2s ease-out;
   transition: opacity 0.2s ease-out;
 }
