@@ -15,7 +15,6 @@ This is a complete top to bottom rewrite of [Lokesh Dhakar](http://www.lokeshdha
 * remove centered chrome and now using a full stretched out to window chrome with a solid background matching the common style of today (Flickr, Google+, etc.)
 * allow settings to be provided by changing global defaults, programmatically when initializing plugin, or through data attributes
 * a template setting so full HTML can be modified
-* a setting for transition related class names
 * standardize plugin init structure (tend to follow Bootstrap's style)
 * removing code support for very old versions of IE
 
