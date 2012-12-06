@@ -22,8 +22,6 @@
 		<li><a href="#example" class="first">Example</a></li>
 		<li><a href="#download">Download</a></li>
 		<li><a href="#how">How to Use</a></li>
-		<li><a href="#support">Support</a></li>
-		<li><a href="#donate" class="last">Donate</a></li>
 	</ul>
 </div>
 
@@ -164,49 +162,13 @@
 	</ol>	
 </div>
 
-<hr />
-
-<div class="section" id="support">
-	<h2>Support</h2>
-	<p>For personal support issues and feature requests please post a message in the forums. I do not have time to personally respond to support emails, please use the forum. Thanks!
-	</p>
-	<p>For bug reports, send a note with the browser you are using and the version of Lightbox to lokesh.dhakar@[ google's email service ].com.</p>
-
-  	<a href="http://lokeshdhakar.com/forums/" class="forums">
-  	  <img src="images/speech-bubbles.png" alt="Speech bubbles" class="speech" />
-  	  <div class="link">
-  	    Lightbox<br />
-  	    <span class="sub">Forums</span>
-  	  </div>
-  	</a>	
-
-</div>
-
-<hr />
-
-<div class="section" id="elsewhere">
-<h3>Find me elsewhere</h3>
-
-  <div class="row clearfix">
-    <a href="https://twitter.com/intent/user?screen_name=lokeshdhakar" class="button">Twitter</a>
-    <a href="http://lokeshdhakar.com/" class="button">Blog</a>
-  </div>
-</div>
-
 </div><!-- end #content -->
 
-<script src="js/jquery-1.7.2.min.js"></script>
-<script src="js/jquery-ui-1.8.18.custom.min.js"></script>
-<script src="js/jquery.smooth-scroll.min.js"></script>
+<script src="js/jquery-1.8.3.min.js"></script>
 <script src="js/lightbox.js"></script>
 
 <script>
   jQuery(document).ready(function($) {
-      $('a').smoothScroll({
-        speed: 1000,
-        easing: 'easeInOutCubic'
-      });
-
       $('.showOlderChanges').on('click', function(e){
         $('.changelog .old').slideDown('slow');
         $(this).fadeOut();
