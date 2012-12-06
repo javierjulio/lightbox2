@@ -38,7 +38,9 @@ Setting up this project for local development requires [CoffeeScript](http://cof
 
 ## Version History
 
-**0.1.0** (September 10, 2012)
+In ongoing development...
+
+**0.9.0** (September 10, 2012)
 
 * Initial setup.
 
