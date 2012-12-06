@@ -30,33 +30,7 @@ https://github.com/javierjulio/lightbox2
     }
 
     Lightbox.prototype.build = function() {
-      $('<div/>', {
-        id: 'lightbox',
-        "class": 'transition-hidden'
-      }).append($('<div/>', {
-        "class": 'lb-outer-container'
-      }).append($('<a class="lb-close">&times;</a>'), $('<div/>', {
-        "class": 'lb-image-container'
-      }).append($('<img class="lb-image transition-hidden"/>'), $('<div/>', {
-        "class": 'lb-nav'
-      }).append($('<a/>', {
-        "class": 'lb-prev'
-      }), $('<a/>', {
-        "class": 'lb-next'
-      })), $('<div/>', {
-        "class": 'lb-progress-container'
-      }).append($('<div/>', {
-        "class": 'lb-progress',
-        text: 'Loading...'
-      }))), $('<div/>', {
-        "class": 'lb-footer'
-      }).append($('<div/>', {
-        "class": 'lb-title-container'
-      }).append($('<div/>', {
-        "class": 'lb-title'
-      }), $('<div/>', {
-        "class": 'lb-number'
-      }))))).appendTo($('body'));
+      $(this.options.htmlTemplate).appendTo(document.body);
     };
 
     Lightbox.prototype.start = function($link) {
@@ -257,7 +231,8 @@ https://github.com/javierjulio/lightbox2
 
   $.fn.lightbox.defaults = {
     labelImage: 'Image',
-    labelOf: 'of'
+    labelOf: 'of',
+    htmlTemplate: "<div id=\"lightbox\" class=\"transition-hidden\">\n  <div class=\"lb-outer-container\">\n    <a class=\"lb-close\">&times;</a>\n    <div class=\"lb-image-container\">\n      <img class=\"lb-image transition-hidden\">\n      <div class=\"lb-nav\">\n        <div class=\"lb-prev\"></div>\n        <div class=\"lb-next\"></div>\n      </div>\n      <div class=\"lb-progress-container\">\n        <div class=\"lb-progress\">Loading...</div>\n      </div>\n    </div>\n    <div class=\"lb-footer\">\n      <div class=\"lb-title-container\">\n        <div class=\"lb-title\"></div>\n        <div class=\"lb-number\"></div>\n      </div>\n    </div>\n  </div>\n</div>"
   };
 
 }).call(this);

@@ -16,29 +16,8 @@ class Lightbox
     @options = $.extend {}, $.fn.lightbox.defaults, options, @linkElement.data()
     @build()
 
-  # TODO: refactor so HTML is a settings default and is built as one string rather than all jQuery objects
   build: ->
-    $('<div/>', id: 'lightbox', class: 'transition-hidden').append(
-      $('<div/>', class: 'lb-outer-container').append(
-        $('<a class="lb-close">&times;</a>'),
-        $('<div/>', class: 'lb-image-container').append(
-          $('<img class="lb-image transition-hidden"/>'),
-          $('<div/>', class: 'lb-nav').append(
-            $('<a/>', class: 'lb-prev'),
-            $('<a/>', class: 'lb-next')
-          ),
-          $('<div/>', class: 'lb-progress-container').append(
-            $('<div/>', class: 'lb-progress', text: 'Loading...')
-          )
-        ),
-        $('<div/>', class: 'lb-footer').append(
-          $('<div/>', class: 'lb-title-container').append(
-            $('<div/>', class: 'lb-title'),
-            $('<div/>', class: 'lb-number')
-          )
-        )
-      )
-    ).appendTo $('body')
+    $(@options.htmlTemplate).appendTo(document.body)
     return
 
   start: ($link) =>
@@ -221,3 +200,26 @@ $.fn.lightbox.Constructor = Lightbox
 $.fn.lightbox.defaults =
   labelImage: 'Image'
   labelOf: 'of'
+  htmlTemplate: """
+    <div id="lightbox" class="transition-hidden">
+      <div class="lb-outer-container">
+        <a class="lb-close">&times;</a>
+        <div class="lb-image-container">
+          <img class="lb-image transition-hidden">
+          <div class="lb-nav">
+            <div class="lb-prev"></div>
+            <div class="lb-next"></div>
+          </div>
+          <div class="lb-progress-container">
+            <div class="lb-progress">Loading...</div>
+          </div>
+        </div>
+        <div class="lb-footer">
+          <div class="lb-title-container">
+            <div class="lb-title"></div>
+            <div class="lb-number"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    """
