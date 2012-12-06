@@ -1,12 +1,11 @@
 ###
-Rewritten by Javier Julio (https://github.com/javierjulio/lightbox2)
 
-Lightbox v2.51 (http://lokeshdhakar.com/projects/lightbox2/)
-by Lokesh Dhakar (http://www.lokeshdhakar.com)
+A simple, unobtrusive jQuery plugin to overlay an image or images 
+(as a gallery) on top of the page in a fixed container.
 
-Licensed under the Creative Commons Attribution 2.5 License - http://creativecommons.org/licenses/by/2.5/
-- free for use in both personal and commercial projects
-- attribution requires leaving author name, author link, and the license info intact
+Built with jQuery 1.8.3
+https://github.com/javierjulio/lightbox2
+
 ###
 
 class Lightbox
