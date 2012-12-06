@@ -24,7 +24,7 @@ My main goal is to modernize Lightbox and offer enough basic options that those 
 
 * cache all DOM lookups on start and reuse
 * redo image preloading to preload in sets
-* move auto intialization out of plugin
+* move auto intialization out of plugin and into README documentation
 * come up with data attribute name to enable plugin
   * data attribute name can't lightbox but the attribute value can be
   * maybe use `data-toggle="lightbox"` but what to use for a gallery of images?
