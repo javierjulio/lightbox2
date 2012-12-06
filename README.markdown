@@ -2,23 +2,23 @@
 
 This is a complete top to bottom rewrite of [Lokesh Dhakar](http://www.lokeshdhakar.com)'s [Lightbox2 plugin](http://lokeshdhakar.com/projects/lightbox2/) to simplify and modernize it. I needed a lightbox type tool for my current work project ([myfdb.com](https://www.myfdb.com/)) that was simple enough that I could modify (and boy did I often) confidently and with little trouble. I looked at other plugins but this was the simplest using jQuery but also written in CoffeeScript (huge win). Changes include:
 
-* replacing JS effects with CSS transitions (runs great on an iPad!)
+* replaced JS effects with CSS transitions (runs great on an iPad!)
 * if CSS transitions aren't supported, content is just hidden or shown as expected
 * fewer DOM lookups! (man did the original have a lot)
-* using full CSS based overlay (no JS)
+* using full fixed CSS based overlay (no JS)
 * all plugin events are namespaced
-* add and remove namespaced events when opening and closing
-* use one click and one keyup handler on document object, rather than on each individual element
-* replace misc images (close, loading, etc.) with simple text but can be changed if desired through settings
-* remove all JS for image layout by just setting line-height on the image container equal to that container's height to vertically center and use CSS text-align which doesn't require a width to horizontally center
-* no positioning the window using JS, all done through CSS
-* remove centered chrome and now using a full stretched out to window chrome with a solid background matching the common style of today (Flickr, Google+, etc.)
-* allow settings to be provided by changing global defaults, programmatically when initializing plugin, or through data attributes
-* a template setting so full HTML can be modified
-* standardize plugin init structure (tend to follow Bootstrap's style)
+* namespaced events are added or removed when opening or closing lightbox
+* registering one click and one keyup handler on document object, rather than on each individual element
+* replacing misc images (close, loading, etc.) with simple text as a default (can be changed through settings)
+* removed all JS for image layout by just setting line-height on the image container equal to that container's height to vertically center and then using CSS text-align which doesn't require a width to horizontally center
+* window is no longer positioned using JS, all done through CSS
+* remove centered chrome and now using a stretched-out-to-fill-window chrome with a solid background color matching the common style used today (Flickr, Google+, etc.)
+* settings can be provided by changing global defaults, programmatically when initializing plugin, or through data attributes
+* HTML can be modified through a template setting
+* standardizing plugin init structure (tend to follow Bootstrap's style)
 * removing code support for very old versions of IE
 
-My main goal is to modernize Lightbox and offer enough basic options that those features can be changed. Anymore than that the plugin is simple enough that its easy to modify the JS source to suit your needs. This is what I wanted but I couldn't find a similar plugin that offered that and hope this will help you as it did for me.
+My main goal is to modernize Lightbox and offer enough basic options that those features can be changed through settings. Anymore than that the plugin is simple enough that its easy to modify the JS source to suit your needs. This is what I wanted but I couldn't find a similar plugin that offered that and hope this will help you as it did for me.
 
 ## Todo List
 
@@ -28,7 +28,7 @@ My main goal is to modernize Lightbox and offer enough basic options that those 
 * come up with data attribute name to enable plugin
   * data attribute name can't lightbox but the attribute value can be
   * maybe use `data-toggle="lightbox"` but what to use for a gallery of images?
-* remove rel attribute support and replace with class and data lookup instead
+  * remove rel attribute support and replace with class and data lookup instead
 
 ## Contribute
 
