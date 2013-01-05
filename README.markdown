@@ -32,7 +32,7 @@ My main goal is to modernize Lightbox and offer enough basic options that those 
 
 ## Contribute
 
-To contribute, fork this repo, create a topic branch, make changes, then send a pull request. Pull requests without accompanying tests will *not* be accepted. If you need help creating tests let me know and I'll help out.
+To contribute, fork this repo, create a topic branch, make changes, then send a pull request.
 
 Setting up this project for local development requires [CoffeeScript](http://coffeescript.org/#installation), Ruby and [rbenv](https://github.com/sstephenson/rbenv). Don't have Ruby installed? Use [ruby-build](https://github.com/sstephenson/ruby-build) and [rbenv](https://github.com/sstephenson/rbenv) and you'll be in good hands. Trust me. Best 2 CLI tools ever!
 
